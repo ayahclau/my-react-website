@@ -1,0 +1,569 @@
+/* Projects.css */
+.projects-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Ambient Glows — theme-aware so they match Home/About in both modes */
+.projects-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  opacity: 0.25;
+  z-index: 0;
+}
+
+/* .glow-a {
+  width: 32vw;
+  height: 32vw;
+  background: var(--blob-1);
+  top: -8%;
+  right: 0%;
+} */
+
+/* .glow-b {
+  width: 28vw;
+  height: 28vw;
+  background: var(--blob-2);
+  bottom: -8%;
+  left: -3%;
+} */
+
+.projects-wrapper {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* --- HEADER --- */
+.projects-header {
+  text-align: center;
+  margin-bottom: 34px;
+}
+
+.projects-title {
+  font-size: clamp(28px, 3.2vw, 42px);
+  font-weight: 800;
+  letter-spacing: -1.2px;
+  line-height: 1.2;
+  color: var(--text);
+  margin: 0 0 10px 0;
+}
+
+.projects-subtitle {
+  font-size: 15px;
+  color: var(--text);
+  opacity: 0.65;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* --- SHOWCASE STAGE --- */
+.showcase-stage {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 36px;
+  align-items: start;
+  margin-bottom: 24px;
+}
+
+/* --- LAPTOP MOCKUP --- */
+/* Fixed aspect ratio on the screen keeps this whole column a constant
+   height across every project — before, the browser-window frame had no
+   height of its own and just stretched to match `.stage-info`'s content,
+   so switching to a project with a shorter/longer description or fewer
+   tags resized the row and visibly shifted the whole centered layout. */
+.laptop-mockup {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.laptop-screen {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  padding: 14px 14px 18px;
+  background: linear-gradient(165deg, #2a2a30 0%, #131316 100%);
+  border-radius: 18px 18px 6px 6px;
+  box-shadow: 0 30px 55px rgba(0, 0, 0, 0.35);
+  box-sizing: border-box;
+}
+
+.laptop-screen::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #050506;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+/* Screenshot frame, echoing the window-chrome look from Home — now the
+   "display" sitting inside the laptop bezel above */
+.stage-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.frame-chrome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: rgba(0, 0, 0, 0.25);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.frame-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.frame-dots .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.frame-dots .dot.red { background: #ff5f56; }
+.frame-dots .dot.yellow { background: #ffbd2e; }
+.frame-dots .dot.green { background: #27c93f; }
+
+.frame-filename {
+  font-size: 11px;
+  font-family: "Courier New", Courier, monospace;
+  color: #fff;
+  opacity: 0.45;
+}
+
+.frame-body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  /* Constant neutral "display" surface so screenshots of any size letterbox
+     consistently instead of showing mismatched glass/ambient color behind them */
+  background: #0c0c0f;
+}
+
+.frame-media {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.frame-img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* Laptop base — the chassis strip below the screen, wider than the
+   display like a real laptop's lower half */
+.laptop-base {
+  position: relative;
+  width: 108%;
+  height: 14px;
+  background: linear-gradient(180deg, #2a2a30 0%, #000 100%);
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.3);
+}
+
+.laptop-notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 15%;
+  height: 5px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 0 0 8px 8px;
+}
+
+/* --- PER-PROJECT SCREENSHOT PICKER --- */
+.screenshot-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.screenshot-dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--border);
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.screenshot-dot:hover {
+  transform: scale(1.2);
+}
+
+.screenshot-dot.active {
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  transform: scale(1.15);
+}
+
+.frame-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  /* Fixed light color, not var(--text) — this sits on the always-dark
+     "screen" surface (.frame-body) regardless of site theme, so it needs
+     its own contrast rather than following light/dark mode. */
+  color: #ffffff;
+  opacity: 0.4;
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.02),
+    rgba(255, 255, 255, 0.02) 10px,
+    rgba(255, 255, 255, 0.05) 10px,
+    rgba(255, 255, 255, 0.05) 20px
+  );
+}
+
+.placeholder-icon {
+  font-size: 30px;
+}
+
+.frame-placeholder span {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Overlay prev/next arrows on the frame, revealed on hover */
+.frame-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: rgba(20, 20, 25, 0.55);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  cursor: pointer;
+  opacity: 0;
+  backdrop-filter: blur(8px);
+  transition: opacity 0.25s ease, background 0.25s ease, transform 0.25s ease;
+}
+
+.frame-body:hover .frame-nav-btn {
+  opacity: 1;
+}
+
+.frame-nav-btn:hover {
+  background: rgba(168, 85, 247, 0.5);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.frame-nav-btn.prev { left: 14px; }
+.frame-nav-btn.next { right: 14px; }
+
+/* --- INFO PANEL --- */
+/* align-self (not the grid's align-items) centers just this column within
+   the row's height — the row height is still set by the laptop mockup's
+   own fixed aspect ratio either way, so this can't resize it the way
+   align-items: stretch did before. */
+.stage-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+}
+
+.info-title {
+  font-size: clamp(20px, 2vw, 26px);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--text);
+  margin: 0 0 6px 0;
+  line-height: 1.25;
+}
+
+.info-role {
+  font-size: 13px;
+  font-style: italic;
+  color: #c084fc;
+  opacity: 0.9;
+  margin: 0 0 16px 0;
+}
+
+.info-description {
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--text);
+  opacity: 0.72;
+  margin: 0 0 20px 0;
+}
+
+.info-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  padding: 8px 16px;
+  margin-bottom: 20px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #c084fc;
+  text-decoration: none;
+  background: rgba(168, 85, 247, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+.info-link-icon {
+  font-size: 11px;
+  transition: transform 0.25s ease;
+}
+
+.info-link:hover {
+  background: rgba(168, 85, 247, 0.2);
+  border-color: rgba(168, 85, 247, 0.6);
+  transform: translateY(-2px);
+}
+
+.info-link:hover .info-link-icon {
+  transform: translate(2px, -2px);
+}
+
+.info-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.info-tag {
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+}
+
+body.light .info-tag {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+/* --- THUMBNAIL RAIL --- */
+/* The prev/next arrows that used to live inside the laptop screen now
+   switch screenshots instead, so project-to-project navigation moved out
+   here, flanking the thumbnail rail. */
+.thumbnail-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rail-nav-btn {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease, color 0.25s ease;
+}
+
+body.light .rail-nav-btn {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.rail-nav-btn:hover {
+  background: rgba(168, 85, 247, 0.15);
+  border-color: rgba(168, 85, 247, 0.5);
+  color: #c084fc;
+  transform: scale(1.08);
+}
+
+/* No scroll-snap here on purpose — it was fighting with the programmatic
+   `scrollIntoView` call in Projects.jsx (goTo), which is most visible on
+   the last item: the browser can't reach a true "centered" snap point
+   that close to the end, so it would first scroll toward center then jerk
+   back to the nearest valid snap position. Centering is handled entirely
+   by the JS call instead. */
+.thumbnail-rail {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 4px 4px 8px 4px;
+  cursor: grab;
+  scrollbar-width: none;
+}
+
+.thumbnail-rail:active {
+  cursor: grabbing;
+}
+
+.thumbnail-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.thumb-item {
+  flex: 0 0 auto;
+  width: 108px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.thumb-media {
+  width: 100%;
+  height: 62px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: border-color 0.25s ease, transform 0.25s ease, opacity 0.25s ease;
+  opacity: 0.55;
+}
+
+body.light .thumb-media {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.thumb-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.thumb-icon {
+  font-size: 15px;
+  color: var(--text);
+  opacity: 0.5;
+}
+
+.thumb-label {
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--text);
+  opacity: 0.45;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  transition: opacity 0.25s ease;
+}
+
+.thumb-item:hover .thumb-media {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+.thumb-item.active .thumb-media {
+  opacity: 1;
+  border-color: rgba(168, 85, 247, 0.6);
+  box-shadow: 0 8px 20px rgba(168, 85, 247, 0.25);
+}
+
+.thumb-item.active .thumb-label {
+  opacity: 0.9;
+}
+
+/* --- RESPONSIVE BREAKPOINTS --- */
+@media (max-width: 968px) {
+  .projects-section {
+    height: auto;
+    min-height: 100vh;
+    padding: 100px 6% 60px 6%;
+  }
+
+  .showcase-stage {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .stage-info {
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .thumb-item {
+    width: 84px;
+  }
+
+  .thumb-media {
+    height: 50px;
+  }
+
+  .frame-nav-btn {
+    width: 32px;
+    height: 32px;
+    opacity: 1;
+  }
+
+  .rail-nav-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 11px;
+  }
+}

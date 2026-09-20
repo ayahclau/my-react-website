@@ -1,0 +1,62 @@
+body.dark {
+  --bg: #121212;
+  --text: #ffffff;
+  --pcard: #ffffff;
+  --ptext: #1c1a19;
+  --card: #1c1a19;
+  --border: rgba(255, 255, 255, 0.15);
+  --tooltip-bg: rgba(0, 0, 0, 0.7);
+  --tooltip-text: #ffffff;
+
+  /* --- DARK MODE GLOWS (Vibrant & Deep) --- */
+  --blob-1: rgba(124, 58, 237, 0.4);      /* Deep Violet */
+  --blob-2: rgba(225, 29, 72, 0.3);       /* Deep Rose */
+  --cursor-core: rgba(192, 38, 211, 0.4);  /* Magenta core */
+  --cursor-mid: rgba(236, 72, 153, 0.2);   /* Pink middle */
+  --cursor-outer: rgba(249, 115, 22, 0.05);/* Orange edge */
+  --noise-opacity: 0.1;                    /* Stronger grain for dark mode */
+}
+
+
+body.light {
+  --bg: #f5f5f5;
+  --text: #111111;
+  --pcard: #1c1a19;
+  --ptext: #ffffff;
+  --card: rgba(0, 0, 0, 0.05);
+  --border: rgba(0, 0, 0, 0.15);
+  --tooltip-bg: rgba(255, 255, 255, 0.9);
+  --tooltip-text: #111111;
+
+  /* --- LIGHT MODE GLOWS (Soft Pastels) --- */
+  --blob-1: rgba(56, 189, 248, 0.8);      /* Soft Sky Blue */
+  --blob-2: rgba(251, 146, 60, 0.7);     /* Soft Pastel Peach */
+  --cursor-core: rgba(168, 85, 247, 0.5); /* Muted Lavender core */
+  --cursor-mid: rgba(244, 63, 94, 0.3);   /* Very soft pink */
+  --cursor-outer: rgba(56, 189, 248, 0.3);/* Almost invisible blue edge */
+  --noise-opacity: 0.12;                   /* Lighter grain so light mode looks clean */
+}
+
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin: 0; 
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+}
+
+
+/* --- LOAD ANIMATIONS --- */
+@keyframes slideDownFade {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+

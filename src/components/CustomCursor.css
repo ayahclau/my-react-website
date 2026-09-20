@@ -1,0 +1,18 @@
+/* Completely hide the stock native operating system cursor */
+* {
+  cursor: none !important;
+}
+
+/* Container hosting your custom white pointer */
+.custom-triangle-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  pointer-events: none; /* Prevents the cursor from blocking click actions */
+  z-index: 99999;
+  
+  /* Soft, upscale ambient glow under the cursor matching your sleek layout style */
+  filter: drop-shadow(0px 2px 5px rgba(255, 255, 255, 0.25));
+}
