@@ -11,32 +11,6 @@
   overflow: hidden;
 }
 
-/* Ambient Glows — theme-aware so they match Home/About in both modes */
-.projects-glow {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(120px);
-  pointer-events: none;
-  opacity: 0.25;
-  z-index: 0;
-}
-
-/* .glow-a {
-  width: 32vw;
-  height: 32vw;
-  background: var(--blob-1);
-  top: -8%;
-  right: 0%;
-} */
-
-/* .glow-b {
-  width: 28vw;
-  height: 28vw;
-  background: var(--blob-2);
-  bottom: -8%;
-  left: -3%;
-} */
-
 .projects-wrapper {
   position: relative;
   z-index: 1;
@@ -71,23 +45,35 @@
 }
 
 /* --- SHOWCASE STAGE --- */
+/* --stage-h is the height of the media column and is the same for every
+   project (landscape laptop, portrait poster, tall phone shot alike), so
+   switching between them never resizes the row. It's also viewport-based,
+   so the whole page keeps fitting on shorter laptop screens. */
 .showcase-stage {
+  --stage-h: clamp(300px, 54vh, 500px);
   width: 100%;
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
   gap: 36px;
-  align-items: start;
+  align-items: center;
   margin-bottom: 24px;
 }
 
-/* --- LAPTOP MOCKUP --- */
-/* Fixed aspect ratio on the screen keeps this whole column a constant
-   height across every project — before, the browser-window frame had no
-   height of its own and just stretched to match `.stage-info`'s content,
-   so switching to a project with a shorter/longer description or fewer
-   tags resized the row and visibly shifted the whole centered layout. */
+.media-cell {
+  height: var(--stage-h);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- LAPTOP MOCKUP (landscape projects) --- */
+/* Width is capped by both the column and the cell height (16:10 screen +
+   14px base + the 32px dots row), so it always fits inside .media-cell. */
 .laptop-mockup {
-  width: 100%;
+  width: min(100%, calc((var(--stage-h) - 46px) * 1.6));
+  flex: none;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -163,6 +149,57 @@
   opacity: 0.45;
 }
 
+/* Laptop base — the chassis strip below the screen, wider than the
+   display like a real laptop's lower half */
+.laptop-base {
+  position: relative;
+  width: 108%;
+  height: 14px;
+  background: linear-gradient(180deg, #2a2a30 0%, #000 100%);
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.3);
+}
+
+.laptop-notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 15%;
+  height: 5px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 0 0 8px 8px;
+}
+
+/* --- PORTRAIT / TALL FRAME (graphics, posters, phone screens) --- */
+/* Same dark bezel as the laptop but with no browser chrome — it's a
+   poster/screen viewer, and the aspect ratio comes from the project's
+   `orientation` (set inline in Projects.jsx). Height is fixed from the
+   cell; width follows from the ratio. */
+.portrait-mockup {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portrait-frame {
+  height: calc(var(--stage-h) - 32px);
+  max-width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  background: linear-gradient(165deg, #2a2a30 0%, #131316 100%);
+  border-radius: 20px;
+  box-shadow: 0 30px 55px rgba(0, 0, 0, 0.35);
+}
+
+.portrait-frame .frame-body {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* --- SCREENSHOT VIEWER (shared by both frames) --- */
 .frame-body {
   position: relative;
   flex: 1;
@@ -189,34 +226,15 @@
   display: block;
 }
 
-/* Laptop base — the chassis strip below the screen, wider than the
-   display like a real laptop's lower half */
-.laptop-base {
-  position: relative;
-  width: 108%;
-  height: 14px;
-  background: linear-gradient(180deg, #2a2a30 0%, #000 100%);
-  border-radius: 0 0 10px 10px;
-  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.3);
-}
-
-.laptop-notch {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 15%;
-  height: 5px;
-  background: rgba(0, 0, 0, 0.4);
-  border-radius: 0 0 8px 8px;
-}
-
 /* --- PER-PROJECT SCREENSHOT PICKER --- */
 .screenshot-dots {
+  flex: none;
+  height: 24px;
+  margin-top: 8px;
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 8px;
-  margin-top: 16px;
 }
 
 .screenshot-dot {
@@ -295,6 +313,13 @@
   opacity: 1;
 }
 
+/* No hover on touch screens, so the arrows would otherwise never show */
+@media (hover: none) {
+  .frame-nav-btn {
+    opacity: 1;
+  }
+}
+
 .frame-nav-btn:hover {
   background: rgba(168, 85, 247, 0.5);
   transform: translateY(-50%) scale(1.08);
@@ -304,15 +329,25 @@
 .frame-nav-btn.next { right: 14px; }
 
 /* --- INFO PANEL --- */
-/* align-self (not the grid's align-items) centers just this column within
-   the row's height — the row height is still set by the laptop mockup's
-   own fixed aspect ratio either way, so this can't resize it the way
-   align-items: stretch did before. */
+/* Centered within the row via align-self. Capped to the media cell's
+   height and scrollable, so a long description (or a project with lots of
+   tags) can never push the page taller — it scrolls inside its own box.
+   The child uses auto margins instead of justify-content:center, which
+   would make the top of overflowing content unreachable. */
 .stage-info {
+  min-width: 0;
+  max-height: var(--stage-h);
+  overflow-y: auto;
+  align-self: center;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-self: center;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(168, 85, 247, 0.35) transparent;
+}
+
+.stage-info > * {
+  margin-block: auto;
 }
 
 .info-title {
@@ -393,9 +428,8 @@ body.light .info-tag {
 }
 
 /* --- THUMBNAIL RAIL --- */
-/* The prev/next arrows that used to live inside the laptop screen now
-   switch screenshots instead, so project-to-project navigation moved out
-   here, flanking the thumbnail rail. */
+/* The prev/next arrows flanking the rail switch projects; the arrows
+   inside the screen switch screenshots. */
 .thumbnail-row {
   width: 100%;
   display: flex;
@@ -430,17 +464,21 @@ body.light .rail-nav-btn {
   transform: scale(1.08);
 }
 
-/* No scroll-snap here on purpose — it was fighting with the programmatic
-   `scrollIntoView` call in Projects.jsx (goTo), which is most visible on
-   the last item: the browser can't reach a true "centered" snap point
-   that close to the end, so it would first scroll toward center then jerk
-   back to the nearest valid snap position. Centering is handled entirely
-   by the JS call instead. */
+.project-counter {
+  display: none;
+}
+
+/* No scroll-snap here on purpose — it fought with the programmatic
+   centering in Projects.jsx (goTo), most visibly on the last item. The
+   first/last auto margins below center the row when it fits and collapse
+   to zero when it overflows — unlike justify-content:center, which cuts
+   off (and makes unreachable) the leading items once the row overflows,
+   exactly what happens on a phone. */
 .thumbnail-rail {
+  position: relative;
   flex: 1;
   min-width: 0;
   display: flex;
-  justify-content: center;
   gap: 12px;
   overflow-x: auto;
   padding: 4px 4px 8px 4px;
@@ -454,6 +492,14 @@ body.light .rail-nav-btn {
 
 .thumbnail-rail::-webkit-scrollbar {
   display: none;
+}
+
+.thumb-item:first-child {
+  margin-left: auto;
+}
+
+.thumb-item:last-child {
+  margin-right: auto;
 }
 
 .thumb-item {
@@ -529,41 +575,281 @@ body.light .thumb-media {
 }
 
 /* --- RESPONSIVE BREAKPOINTS --- */
+/* Tablet / phone: one column. This section is pinned to a single 100vh
+   slot (the app hijacks scroll for section navigation, so anything that
+   overflows is unreachable), which means the layout has to be a column of
+   fixed regions — header, media, thumbnails — with the info panel as the
+   one flexible region that takes whatever height is left and scrolls
+   inside itself if the text is longer. */
 @media (max-width: 968px) {
   .projects-section {
-    height: auto;
-    min-height: 100vh;
-    padding: 100px 6% 60px 6%;
+    height: 100vh;
+    padding: 64px 5% 12px;
+    align-items: stretch;
+  }
+
+  /* Header, media, info and switcher read as one group, centered as a
+     whole in the slot. Nothing stretches to fill the screen — that made
+     the info text float in the middle of a big empty region. If the group
+     is ever taller than the slot, the info box is the only thing that
+     shrinks (and scrolls). */
+  .projects-wrapper {
+    height: 100%;
+    min-height: 0;
+    justify-content: center;
+  }
+
+  .projects-header {
+    flex: none;
+    margin-bottom: 10px;
   }
 
   .showcase-stage {
-    grid-template-columns: 1fr;
-    gap: 24px;
+    --stage-h: clamp(170px, 30vh, 340px);
+    flex: 0 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-bottom: 8px;
   }
 
+  /* Portrait/tall frames need more height than a landscape screen to be
+     worth looking at. */
+  .showcase-stage.is-framed {
+    --stage-h: clamp(220px, 40vh, 440px);
+  }
+
+  .media-cell {
+    flex: none;
+    width: 100%;
+  }
+
+  /* Fixed height (rather than whatever the text happens to need) so the
+     switcher below never jumps around when projects change length. Content
+     is top-aligned inside; a longer description scrolls within the box. */
   .stage-info {
+    flex: 0 1 auto;
+    height: clamp(140px, 32vh, 300px);
+    max-height: none;
+    align-self: stretch;
     text-align: left;
+  }
+
+  .stage-info > * {
+    margin-block: 0;
+  }
+
+  .thumbnail-row {
+    flex: none;
   }
 }
 
-@media (max-width: 480px) {
-  .thumb-item {
-    width: 84px;
+/* Phone */
+@media (max-width: 640px) {
+  .projects-title {
+    font-size: 20px;
+    letter-spacing: -0.6px;
+    margin-bottom: 4px;
   }
 
-  .thumb-media {
-    height: 50px;
+  .projects-subtitle {
+    font-size: 12px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .laptop-screen {
+    padding: 8px 8px 10px;
+    border-radius: 12px 12px 4px 4px;
+  }
+
+  .laptop-screen::before {
+    top: 3px;
+    width: 3px;
+    height: 3px;
+  }
+
+  .stage-frame {
+    border-radius: 5px;
+  }
+
+  .frame-chrome {
+    padding: 5px 9px;
+  }
+
+  .frame-dots {
+    gap: 4px;
+  }
+
+  .frame-dots .dot {
+    width: 7px;
+    height: 7px;
+  }
+
+  .frame-filename {
+    font-size: 9px;
+  }
+
+  .laptop-base {
+    height: 10px;
+    border-radius: 0 0 8px 8px;
+  }
+
+  .portrait-frame {
+    padding: 7px;
+    border-radius: 15px;
+  }
+
+  .portrait-frame .frame-body {
+    border-radius: 9px;
   }
 
   .frame-nav-btn {
-    width: 32px;
-    height: 32px;
-    opacity: 1;
-  }
-
-  .rail-nav-btn {
     width: 28px;
     height: 28px;
     font-size: 11px;
+  }
+
+  .frame-nav-btn.prev { left: 8px; }
+  .frame-nav-btn.next { right: 8px; }
+
+  .frame-placeholder span {
+    font-size: 11px;
+  }
+
+  .placeholder-icon {
+    font-size: 22px;
+  }
+
+  .info-title {
+    font-size: 15px;
+    margin-bottom: 3px;
+  }
+
+  .info-role {
+    font-size: 11.5px;
+    margin-bottom: 8px;
+  }
+
+  .info-description {
+    font-size: 12px;
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+
+  .info-link {
+    padding: 6px 12px;
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+
+  .info-tags {
+    gap: 6px;
+  }
+
+  .info-tag {
+    padding: 4px 10px;
+    font-size: 10.5px;
+  }
+
+  /* The thumbnail strip takes too much room on a phone (and the last
+     thumbnail ends up under the Resume button), so it's swapped for just
+     the two arrows with a counter between them, centered so the Resume
+     button in the corner never covers either arrow. */
+  .thumbnail-rail {
+    display: none;
+  }
+
+  .thumbnail-row {
+    justify-content: center;
+    gap: 14px;
+  }
+
+  .rail-nav-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 12px;
+  }
+
+  .project-counter {
+    display: block;
+    min-width: 44px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-variant-numeric: tabular-nums;
+    color: var(--text);
+    opacity: 0.7;
+  }
+}
+
+/* Landscape phone / short window: not enough height to stack, so the
+   media and the info sit side by side and everything else shrinks. */
+@media (max-height: 520px) and (orientation: landscape) {
+  .projects-section {
+    height: 100vh;
+    padding: 52px 4% 6px;
+    align-items: stretch;
+  }
+
+  .projects-wrapper {
+    height: 100%;
+    min-height: 0;
+  }
+
+  .projects-header {
+    flex: none;
+    margin-bottom: 4px;
+  }
+
+  .projects-title {
+    font-size: 16px;
+    margin: 0;
+  }
+
+  .projects-subtitle {
+    display: none;
+  }
+
+  .showcase-stage,
+  .showcase-stage.is-framed {
+    --stage-h: max(140px, calc(100vh - 148px));
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 4px;
+  }
+
+  .stage-info {
+    flex: none;
+    height: auto;
+    max-height: var(--stage-h);
+    align-self: center;
+  }
+
+  .stage-info > * {
+    margin-block: auto;
+  }
+
+  .projects-wrapper {
+    justify-content: flex-start;
+  }
+
+  .thumb-label {
+    display: none;
+  }
+
+  .thumb-media {
+    height: 26px;
   }
 }

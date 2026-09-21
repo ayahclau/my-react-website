@@ -5,9 +5,6 @@ import "./Contact.css";
 export default function Contact() {
   return (
     <section id="contact" className="contact-section">
-      <div className="contact-glow glow-a"></div>
-      <div className="contact-glow glow-b"></div>
-
       <div className="contact-container">
 
         {/* LEFT SIDE: Header & Connections */}

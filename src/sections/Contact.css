@@ -9,32 +9,6 @@
   overflow: hidden;
 }
 
-/* Background Ambient Glows */
-.contact-glow {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(120px);
-  pointer-events: none;
-  opacity: 0.22;
-  z-index: 0;
-}
-
-.glow-a {
-  width: 380px;
-  height: 380px;
-  background: var(--blob-1);
-  top: 5%;
-  left: -8%;
-}
-
-.glow-b {
-  width: 340px;
-  height: 340px;
-  background: var(--blob-2);
-  bottom: 0%;
-  right: -6%;
-}
-
 .contact-container {
   position: relative;
   z-index: 1;
@@ -337,5 +311,208 @@ body.light .input-group textarea {
   }
   .contact-form-deck {
     padding: 32px 28px;
+  }
+}
+
+/* Phone. This section sits in a single 100vh slot and the app hijacks
+   scroll for section navigation, so anything taller than the screen is
+   unreachable — everything below is budgeted to fit ~640px of height
+   (title + blurb + email + socials + the whole form). */
+@media (max-width: 640px) {
+  .contact-section {
+    /* clears the hamburger / theme-toggle buttons at top:20px */
+    padding: 62px 0 12px;
+  }
+
+  .contact-container {
+    gap: 14px;
+    padding: 0 16px;
+  }
+
+  .contact-title {
+    font-size: 22px;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+
+  .contact-subtitle {
+    font-size: 12.5px;
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+
+  .contact-email-card {
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: 13px;
+  }
+
+  .contact-icon-wrapper {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    font-size: 13px;
+  }
+
+  .email-label {
+    font-size: 9.5px;
+  }
+
+  .email-value {
+    font-size: 13px;
+  }
+
+  .email-arrow {
+    margin-left: 8px;
+    font-size: 11px;
+  }
+
+  .contact-socials-row {
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .social-pill {
+    gap: 7px;
+    padding: 7px 14px;
+    font-size: 12px;
+  }
+
+  .contact-form-deck {
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  .form-header {
+    margin-bottom: 10px;
+  }
+
+  .form-header h3 {
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+
+  .form-header p {
+    font-size: 11.5px;
+  }
+
+  .contact-form {
+    gap: 10px;
+  }
+
+  .input-icon {
+    left: 13px;
+    top: 14px;
+    font-size: 12px;
+  }
+
+  .input-group input,
+  .input-group textarea {
+    padding: 11px 14px 11px 37px;
+    font-size: 13px;
+    border-radius: 10px;
+  }
+
+  .input-group textarea {
+    height: 72px;
+    resize: none;
+  }
+
+  .contact-submit-btn {
+    padding: 12px;
+    font-size: 13.5px;
+    border-radius: 10px;
+  }
+}
+
+/* iOS Safari zooms the whole page in when a text field under 16px gets
+   focus, which would knock this fixed-layout slider off-screen — so on
+   real touch devices the typed text stays at 16px even though the rest
+   of the page is compacted. */
+@media (max-width: 640px) and (hover: none) and (pointer: coarse) {
+  .input-group input,
+  .input-group textarea {
+    font-size: 16px;
+  }
+}
+
+/* Landscape phone / small landscape tablet: stacking would be far too
+   tall, so it goes back to two columns (left-aligned again, undoing the
+   centered stack above). */
+@media (max-width: 900px) and (orientation: landscape) {
+  .contact-section {
+    padding: 56px 0 8px;
+  }
+
+  .contact-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    padding: 0 24px;
+  }
+
+  .contact-info {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .contact-subtitle {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .contact-email-card {
+    margin: 0;
+  }
+
+  .contact-socials-row {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .contact-title {
+    font-size: 19px;
+    margin-bottom: 4px;
+  }
+
+  .contact-subtitle {
+    display: none;
+  }
+
+  .contact-container {
+    gap: 22px;
+  }
+
+  .contact-form-deck {
+    padding: 12px 14px;
+  }
+
+  .form-header {
+    margin-bottom: 6px;
+  }
+
+  .form-header p {
+    display: none;
+  }
+
+  .contact-form {
+    gap: 8px;
+  }
+
+  .input-icon {
+    top: 10px;
+  }
+
+  .input-group input,
+  .input-group textarea {
+    padding: 8px 12px 8px 34px;
+  }
+
+  .input-group textarea {
+    height: 48px;
+  }
+
+  .contact-submit-btn {
+    padding: 9px;
   }
 }

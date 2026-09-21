@@ -11,32 +11,6 @@
   overflow: hidden;
 }
 
-/* Background Ambient Glows */
-.about-glow {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(120px);
-  pointer-events: none;
-  opacity: 0.25;
-  z-index: 0;
-}
-
-/* .glow-1 {
-  width: 400px;
-  height: 400px;
-  background: var(--blob-1);
-  top: 10%;
-  left: -5%;
-} */
-
-/* .glow-2 {
-  width: 350px;
-  height: 350px;
-  background: var(--blob-2);
-  bottom: 10%;
-  right: -5%;
-} */
-
 /* Bento Grid Architecture */
 .about-bento-grid {
   position: relative;
@@ -470,7 +444,9 @@ body.light .fuel-card {
     min-height: 0;
     /* 76px clears the 46px hamburger/theme-toggle buttons sitting at
        top:20px with a little breathing room. */
-    padding: 76px 5% 16px;
+    /* 64px at the bottom keeps the last row of cards above the fixed
+       Resume button (16px from the edge + ~40px tall) */
+    padding: 76px 5% 64px;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
@@ -480,8 +456,18 @@ body.light .fuel-card {
     display: none;
   }
 
+  /* Two columns: photo, bio and traits still span the full width, but
+     degree/location and current vibe sit side by side — that pair used to
+     take two full rows, and this buys back the room at the bottom. */
   .about-bento-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
+  }
+
+  .visual-id-card,
+  .bio-card,
+  .traits-card {
+    grid-column: 1 / -1;
   }
 
   .bento-card {
@@ -578,13 +564,16 @@ body.light .fuel-card {
     font-size: 12px;
   }
 
-  /* Card 5: current vibe */
+  /* Card 5: current vibe — half width now, so the icon sits above the
+     text instead of beside it, giving the text the card's full width */
   .fuel-card {
-    padding: 10px 14px;
+    padding: 14px;
   }
 
   .fuel-content {
-    gap: 8px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
   }
 
   .coffee-icon-glow {

@@ -35,12 +35,7 @@ export default function Home() {
 
   return (
     <section className="home-section" id="home">
-      {/* Background Ambient Glows & Grid Spotlight */}
-      <div className="home-spotlight"></div>
-      <div className="ambient-glow glow-top"></div>
-      <div className="ambient-glow glow-bottom"></div>
-
-      <motion.div 
+      <motion.div
         className="home-container"
         variants={containerVariants}
         initial="hidden"

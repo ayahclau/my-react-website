@@ -303,7 +303,10 @@ body.light .portal-card {
     letter-spacing: -4px;
   }
 
+  /* 82vw (was 90vw) leaves a visible margin on each side of the card */
   .portal-card {
+    width: 82vw;
+    max-width: 340px;
     padding: 32px 24px 26px;
     border-radius: 28px;
   }
@@ -356,6 +359,36 @@ body.light .portal-card {
 
   .portal-card {
     padding: 28px 20px 22px;
+  }
+}
+
+/* Portrait phones: the card covers the whole middle of the screen, so
+   "hello" sitting behind it was mostly hidden and read as tiny. It moves
+   up into the free space above the card instead, and gets bigger and
+   a touch more opaque now that nothing is covering it. Sized by
+   whichever is smaller of width and height so it always fits in the
+   space left above the card, even on short phones. */
+@media (max-width: 640px) and (orientation: portrait) {
+  .portal-bg-text {
+    left: 0;
+    right: 0;
+    /* Anchored just above the card. The card is vertically centered and
+       ~280px tall at this size (so its top edge is ~140px above center),
+       and the text box has ~0.22em of empty descender space under the
+       letters — the -0.22em cancels that out so the visible gap between
+       the letters and the card stays about the same whatever size the
+       word ends up. */
+    bottom: calc(50% + 168px - 0.22em);
+    padding-left: 0;
+    text-align: center;
+    font-size: clamp(90px, min(40vw, 20vh), 200px);
+    letter-spacing: -4px;
+    line-height: 1;
+    opacity: 0.34;
+  }
+
+  body.light .portal-bg-text {
+    opacity: 0.5;
   }
 }
 
