@@ -1,6 +1,10 @@
-/* Completely hide the stock native operating system cursor */
-* {
-  cursor: none !important;
+/* Completely hide the stock native operating system cursor — only on
+   devices that actually have a mouse; on touch screens there's no cursor
+   to hide and CustomCursor.jsx doesn't render at all. */
+@media (hover: hover) and (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
 }
 
 /* Container hosting your custom white pointer */

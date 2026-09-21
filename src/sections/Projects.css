@@ -2,7 +2,7 @@
 .projects-section {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: var(--app-h, 100vh);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -50,7 +50,7 @@
    switching between them never resizes the row. It's also viewport-based,
    so the whole page keeps fitting on shorter laptop screens. */
 .showcase-stage {
-  --stage-h: clamp(300px, 54vh, 500px);
+  --stage-h: clamp(300px, calc(var(--app-h, 100vh) * 0.54), 500px);
   width: 100%;
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
@@ -583,7 +583,7 @@ body.light .thumb-media {
    inside itself if the text is longer. */
 @media (max-width: 968px) {
   .projects-section {
-    height: 100vh;
+    height: var(--app-h, 100vh);
     padding: 64px 5% 12px;
     align-items: stretch;
   }
@@ -605,7 +605,7 @@ body.light .thumb-media {
   }
 
   .showcase-stage {
-    --stage-h: clamp(170px, 30vh, 340px);
+    --stage-h: clamp(170px, calc(var(--app-h, 100vh) * 0.3), 340px);
     flex: 0 1 auto;
     min-height: 0;
     display: flex;
@@ -618,7 +618,7 @@ body.light .thumb-media {
   /* Portrait/tall frames need more height than a landscape screen to be
      worth looking at. */
   .showcase-stage.is-framed {
-    --stage-h: clamp(220px, 40vh, 440px);
+    --stage-h: clamp(220px, calc(var(--app-h, 100vh) * 0.4), 440px);
   }
 
   .media-cell {
@@ -631,7 +631,7 @@ body.light .thumb-media {
      is top-aligned inside; a longer description scrolls within the box. */
   .stage-info {
     flex: 0 1 auto;
-    height: clamp(140px, 32vh, 300px);
+    height: clamp(140px, calc(var(--app-h, 100vh) * 0.32), 300px);
     max-height: none;
     align-self: stretch;
     text-align: left;
@@ -794,7 +794,7 @@ body.light .thumb-media {
    media and the info sit side by side and everything else shrinks. */
 @media (max-height: 520px) and (orientation: landscape) {
   .projects-section {
-    height: 100vh;
+    height: var(--app-h, 100vh);
     padding: 52px 4% 6px;
     align-items: stretch;
   }
@@ -820,7 +820,7 @@ body.light .thumb-media {
 
   .showcase-stage,
   .showcase-stage.is-framed {
-    --stage-h: max(140px, calc(100vh - 148px));
+    --stage-h: max(140px, calc(var(--app-h, 100vh) - 148px));
     flex: 1;
     min-height: 0;
     display: grid;

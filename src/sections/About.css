@@ -2,7 +2,7 @@
 .about-section {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  min-height: var(--app-h, 100vh);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -440,7 +440,7 @@ body.light .fuel-card {
      modern phones; older/smaller ones may still need a small nudge, which
      is what the overflow-y below is for — insurance, not the main fix). */
   .about-section {
-    height: 100vh;
+    height: var(--app-h, 100vh);
     min-height: 0;
     /* 76px clears the 46px hamburger/theme-toggle buttons sitting at
        top:20px with a little breathing room. */

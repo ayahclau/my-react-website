@@ -2,7 +2,7 @@
 .home-section {
   position: relative;
   width: 100%;
-  min-height: 100vh; 
+  min-height: var(--app-h, 100vh); 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -367,7 +367,7 @@ body.light .floating-tag-box {
    badge colliding). */
 @media (max-width: 968px) {
   .home-section {
-    height: 100vh;
+    height: var(--app-h, 100vh);
     min-height: 0;
     align-items: flex-start;
     padding: 64px 6% 12px;
