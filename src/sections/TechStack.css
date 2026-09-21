@@ -401,11 +401,106 @@ body.light .tech-card {
 }
 
 @media (max-width: 640px) {
-  .tech-categories {
-    max-width: 280px;
+  /* Clears the 46px hamburger/theme-toggle buttons pinned at top:20px */
+  .tech-section {
+    padding-top: 64px;
   }
 
+  .tech-wrapper {
+    padding: 0 16px;
+    gap: 10px;
+  }
+
+  .tech-title {
+    font-size: 26px;
+    margin-bottom: 8px;
+  }
+
+  .tech-subtitle {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  /* Category cards: was a stacked icon / label / count block (~105px tall
+     each); now icon on the left and label + count stacked beside it, so
+     the whole 2x2 grid takes about half the height and the orbit below
+     gets the room instead. */
+  .tech-categories {
+    max-width: 340px;
+    gap: 8px;
+    margin: 14px auto 0;
+  }
+
+  .category-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    column-gap: 8px;
+    row-gap: 0;
+    padding: 8px 10px;
+    border-radius: 12px;
+    text-align: left;
+  }
+
+  .category-icon {
+    grid-row: 1 / span 2;
+    font-size: 15px;
+  }
+
+  .category-label {
+    font-size: 11px;
+    line-height: 1.25;
+  }
+
+  .category-count {
+    font-size: 10px;
+  }
+
+  /* Orbit size = min(width-based scale, height-based scale). Width keeps
+     the outer ring (plus the half-card overhang, ~614px * scale) inside
+     the screen; height keeps title + categories + orbit inside one
+     100vh slot (this section is overflow:hidden and the app hijacks
+     scroll, so nothing that overflows can be reached). */
   .orbit-system {
-    --orbit-scale: 0.36;
+    --s-w: 0.6;
+    --s-h: 0.6;
+    --orbit-scale: min(var(--s-w), var(--s-h));
+  }
+
+  /* .tech-name's font-size doesn't scale with --orbit-scale, so at this
+     size it was as wide as the whole card and squeezing the icon down to
+     make room for it — dropping the label lets the logo use the full card. */
+  .tech-name {
+    display: none;
+  }
+}
+
+@media (max-width: 390px) {
+  .orbit-system {
+    --s-w: 0.56;
+  }
+}
+
+@media (max-width: 350px) {
+  .orbit-system {
+    --s-w: 0.48;
+  }
+}
+
+@media (max-width: 640px) and (max-height: 780px) {
+  .orbit-system {
+    --s-h: 0.56;
+  }
+}
+
+@media (max-width: 640px) and (max-height: 700px) {
+  .orbit-system {
+    --s-h: 0.5;
+  }
+}
+
+@media (max-width: 640px) and (max-height: 640px) {
+  .orbit-system {
+    --s-h: 0.44;
   }
 }

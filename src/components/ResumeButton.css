@@ -51,3 +51,21 @@ body.light .resume-floating-btn {
 .resume-floating-btn:hover .shimmer-sweep {
   left: 150%;
 }
+
+@media (max-width: 600px) {
+  .resume-floating-btn {
+    /* env(safe-area-inset-bottom) keeps this clear of the home-indicator
+       bar on notched phones (resolves to 0 on devices without one, so
+       it's harmless elsewhere). */
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    right: 16px;
+    padding: 9px 16px;
+    gap: 7px;
+    font-size: 13px;
+  }
+
+  .resume-floating-btn svg {
+    width: 13px;
+    height: 13px;
+  }
+}

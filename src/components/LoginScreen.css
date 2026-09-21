@@ -95,6 +95,17 @@ body.light .portal-bg-text {
   flex-direction: column;
   align-items: center;
   text-align: center;
+  box-sizing: border-box;
+  /* .portal-container has no scroll of its own (overflow: hidden, no
+     fallback), so on a short/landscape viewport this card could otherwise
+     get clipped with no way to reach the button below the fold. */
+  max-height: 92vh;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.portal-card::-webkit-scrollbar {
+  display: none;
 }
 
 body.light .portal-card {
@@ -283,12 +294,100 @@ body.light .portal-card {
 }
 
 /* Responsive Tweaks */
-@media (max-width: 768px) {
-  .handwritten-note {
-    top: -55px;
-    left: -10px;
+@media (max-width: 640px) {
+  .portal-bg-text {
+    /* The clamp() floor was 220px — way bigger than a phone screen is wide,
+       so on mobile the word was rendering far larger than intended instead
+       of actually scaling down with the viewport. */
+    font-size: clamp(90px, 34vw, 180px);
+    letter-spacing: -4px;
   }
-  .handwritten-note span {
-    font-size: 20px;
+
+  .portal-card {
+    padding: 32px 24px 26px;
+    border-radius: 28px;
+  }
+
+  .portal-avatar-box {
+    width: 96px;
+    height: 96px;
+    margin-bottom: 18px;
+  }
+
+  .portal-avatar {
+    width: 72px;
+    height: 72px;
+  }
+
+  .avatar-art-ring {
+    width: 104px;
+    height: 104px;
+  }
+
+  .portal-meta {
+    margin-bottom: 22px;
+  }
+
+  .portal-name {
+    font-size: 19px;
+  }
+
+  .portal-role {
+    font-size: 12px;
+  }
+
+  .portal-enter-btn {
+    padding: 13px 20px;
+    font-size: 13.5px;
+  }
+
+  /* "Press ENTER or SPACE" is a desktop-keyboard hint with no equivalent
+     on a touchscreen, so it's just clutter here rather than useful copy. */
+  .portal-hotkey {
+    display: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .portal-bg-text {
+    font-size: clamp(70px, 30vw, 130px);
+    letter-spacing: -3px;
+  }
+
+  .portal-card {
+    padding: 28px 20px 22px;
+  }
+}
+
+/* Landscape phones have very little vertical room — compact the stack
+   further so the button never ends up fighting the max-height scroll
+   fallback on .portal-card. */
+@media (max-height: 480px) and (orientation: landscape) {
+  .portal-card {
+    padding: 20px 28px;
+  }
+
+  .portal-avatar-box {
+    width: 74px;
+    height: 74px;
+    margin-bottom: 12px;
+  }
+
+  .portal-avatar {
+    width: 56px;
+    height: 56px;
+  }
+
+  .avatar-art-ring {
+    width: 82px;
+    height: 82px;
+  }
+
+  .portal-meta {
+    margin-bottom: 14px;
+  }
+
+  .portal-hotkey {
+    display: none;
   }
 }
