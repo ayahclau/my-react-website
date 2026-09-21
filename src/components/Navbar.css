@@ -103,3 +103,122 @@ body.light .tooltip {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* --- MOBILE: HAMBURGER MENU --- */
+/* Hidden by default (desktop pill is used instead); the media query below
+   flips which one is visible. Tooltip-on-hover doesn't work on touch, and
+   five icon-only buttons get cramped on a phone-width screen, so under
+   768px the whole navbar becomes a trigger + labeled dropdown instead. */
+.navbar-burger {
+  display: none;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1001;
+  width: 46px;
+  height: 46px;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  color: var(--text);
+  font-size: 16px;
+  cursor: pointer;
+  transition: color 0.25s ease, transform 0.2s ease;
+}
+
+body.light .navbar-burger {
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.navbar-burger:hover {
+  color: #a855f7;
+}
+
+.navbar-burger:active {
+  transform: scale(0.94);
+}
+
+.navbar-mobile-backdrop {
+  display: none;
+}
+
+.navbar-mobile-menu {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    display: none;
+  }
+
+  .navbar-burger {
+    display: flex;
+  }
+
+  .navbar-mobile-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: transparent;
+  }
+
+  .navbar-mobile-menu {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 74px;
+    left: 20px;
+    z-index: 1000;
+    min-width: 195px;
+    padding: 10px;
+    gap: 4px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+  }
+
+  body.light .navbar-mobile-menu {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .navbar-mobile-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    border: none;
+    border-radius: 12px;
+    background: transparent;
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .navbar-mobile-item:hover {
+    background: rgba(168, 85, 247, 0.15);
+    color: #c084fc;
+  }
+
+  .navbar-mobile-icon {
+    display: flex;
+    justify-content: center;
+    width: 20px;
+    font-size: 15px;
+  }
+}

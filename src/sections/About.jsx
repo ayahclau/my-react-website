@@ -29,11 +29,7 @@ export default function About() {
 
   return (
     <section id="about" className="about-section">
-      {/* Background Ambient Aura */}
-      <div className="about-glow glow-1"></div>
-      <div className="about-glow glow-2"></div>
-
-      <motion.div 
+      <motion.div
         className="about-bento-grid"
         variants={containerVariants}
         initial="hidden"

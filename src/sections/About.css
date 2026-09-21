@@ -11,32 +11,6 @@
   overflow: hidden;
 }
 
-/* Background Ambient Glows */
-.about-glow {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(120px);
-  pointer-events: none;
-  opacity: 0.25;
-  z-index: 0;
-}
-
-/* .glow-1 {
-  width: 400px;
-  height: 400px;
-  background: var(--blob-1);
-  top: 10%;
-  left: -5%;
-} */
-
-/* .glow-2 {
-  width: 350px;
-  height: 350px;
-  background: var(--blob-2);
-  bottom: 10%;
-  right: -5%;
-} */
-
 /* Bento Grid Architecture */
 .about-bento-grid {
   position: relative;
@@ -452,5 +426,168 @@ body.light .fuel-card {
   .info-divider {
     width: 100%;
     height: 1px;
+  }
+}
+
+@media (max-width: 600px) {
+  /* This app hijacks scroll for its own section-to-section navigation (see
+     App.jsx's window "wheel" listener), so relying on an inner scroll
+     fallback to reach clipped content doesn't actually work when scrolling
+     with a wheel/trackpad (incl. testing a phone size in a resized desktop
+     browser) — the whole point here is to make every card actually fit
+     within one screen, not to make the overflow scrollable. Every size
+     below was budgeted against a ~700px-tall viewport (comfortable on
+     modern phones; older/smaller ones may still need a small nudge, which
+     is what the overflow-y below is for — insurance, not the main fix). */
+  .about-section {
+    height: 100vh;
+    min-height: 0;
+    /* 76px clears the 46px hamburger/theme-toggle buttons sitting at
+       top:20px with a little breathing room. */
+    /* 64px at the bottom keeps the last row of cards above the fixed
+       Resume button (16px from the edge + ~40px tall) */
+    padding: 76px 5% 64px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .about-section::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Two columns: photo, bio and traits still span the full width, but
+     degree/location and current vibe sit side by side — that pair used to
+     take two full rows, and this buys back the room at the bottom. */
+  .about-bento-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .visual-id-card,
+  .bio-card,
+  .traits-card {
+    grid-column: 1 / -1;
+  }
+
+  .bento-card {
+    padding: 14px;
+  }
+
+  /* Card 1: photo poster */
+  .visual-id-card {
+    min-height: 0;
+  }
+
+  .paper-cutout-stage {
+    padding-top: 6px;
+  }
+
+  .cutout-glow-backlight {
+    width: 100px;
+    height: 100px;
+  }
+
+  .paper-cutout-img {
+    max-height: 140px;
+  }
+
+  .id-card-caption {
+    padding: 10px 14px 12px;
+  }
+
+  .id-profile-info h3 {
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+
+  .id-profile-info p {
+    font-size: 10px;
+  }
+
+  .verified-badge {
+    font-size: 15px;
+  }
+
+  /* Card 2: bio */
+  .bio-quote-mark {
+    font-size: 56px;
+  }
+
+  .bio-heading {
+    font-size: 16px;
+    margin-bottom: 6px;
+  }
+
+  .bio-text {
+    font-size: 11.5px;
+    line-height: 1.4;
+  }
+
+  /* Card 3: traits */
+  .card-header-flex {
+    margin-bottom: 8px;
+  }
+
+  .card-header-flex h3,
+  .card-header-flex .card-icon {
+    font-size: 13px;
+  }
+
+  .traits-grid {
+    gap: 6px;
+  }
+
+  .trait-item {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+
+  /* Card 4: degree/location */
+  .info-row {
+    gap: 8px;
+  }
+
+  .info-box {
+    gap: 8px;
+  }
+
+  .info-icon {
+    font-size: 16px;
+  }
+
+  .info-label {
+    font-size: 9px;
+  }
+
+  .info-value {
+    font-size: 12px;
+  }
+
+  /* Card 5: current vibe — half width now, so the icon sits above the
+     text instead of beside it, giving the text the card's full width */
+  .fuel-card {
+    padding: 14px;
+  }
+
+  .fuel-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .coffee-icon-glow {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+    border-radius: 9px;
+  }
+
+  .fuel-label {
+    font-size: 9px;
+  }
+
+  .fuel-text {
+    font-size: 11.5px;
   }
 }

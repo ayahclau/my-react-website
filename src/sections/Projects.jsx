@@ -12,10 +12,18 @@ import "./Projects.css";
 
 // 🌟 Project data, pulled from the Experience section of the resume.
 // `images` is an array so a project can carry multiple screenshots at
-// whatever native size each one happens to be — the laptop screen frame
-// letterboxes each one (object-fit: contain) instead of cropping, so
-// mismatched aspect ratios never distort. Leave entries as `null` to keep
-// the numbered placeholder frame until you have the real screenshot.
+// whatever native size each one happens to be — the frame letterboxes each
+// one (object-fit: contain) instead of cropping, so mismatched aspect
+// ratios never distort. Leave entries as `null` to keep the numbered
+// placeholder frame until you have the real screenshot.
+//
+// Optional `orientation` picks the frame shape for the whole project:
+//   (omitted)  -> auto-detected from the first screenshot's real size
+//   "landscape"-> laptop mockup (web/app screenshots)
+//   "portrait" -> 3:4 poster frame (graphics, posters, mobile screens)
+//   "tall"     -> 9:16 frame (phone screenshots, long infographics)
+// Set it explicitly for a project that uses `null` placeholders, since
+// there's no image yet to measure.
 const projects = [
   {
     id: "univents",
@@ -61,15 +69,57 @@ const projects = [
   },
 ];
 
+const FRAME_RATIOS = { portrait: "3 / 4", tall: "9 / 16" };
+
+// The app hijacks the window's wheel event for section-to-section
+// navigation (App.jsx), which also blocks native scrolling inside any
+// overflow:auto box. Stopping propagation here — only while the box can
+// actually still scroll that way — lets a long description scroll with the
+// wheel, and hands the wheel back to section navigation once it's at its
+// top/bottom edge.
+const stopWheelIfScrollable = (e) => {
+  const el = e.currentTarget;
+  const canScrollDown = el.scrollTop + el.clientHeight < el.scrollHeight - 1;
+  const canScrollUp = el.scrollTop > 0;
+  if ((e.deltaY > 0 && canScrollDown) || (e.deltaY < 0 && canScrollUp)) {
+    e.stopPropagation();
+  }
+};
+
 export default function Projects() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [screenshotIndex, setScreenshotIndex] = useState(0);
+  const [detected, setDetected] = useState({});
   const railRef = useRef(null);
   const thumbRefs = useRef([]);
   const dragState = useRef({ down: false, startX: 0, startScroll: 0, moved: false });
 
   const active = projects[activeIndex];
   const activeScreenshot = active.images[screenshotIndex];
+
+  // Frame shape for projects that don't set `orientation` themselves:
+  // measured from the first screenshot's real dimensions.
+  useEffect(() => {
+    let cancelled = false;
+    projects.forEach((project) => {
+      const src = project.images[0];
+      if (project.orientation || !src) return;
+      const img = new Image();
+      img.onload = () => {
+        if (cancelled) return;
+        const ratio = img.naturalHeight / img.naturalWidth;
+        const shape = ratio > 1.6 ? "tall" : ratio > 1.1 ? "portrait" : "landscape";
+        setDetected((prev) => ({ ...prev, [project.id]: shape }));
+      };
+      img.src = src;
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const orientation = active.orientation || detected[active.id] || "landscape";
+  const isFramed = orientation === "portrait" || orientation === "tall";
 
   // 🌟 Auto-advance through the active project's screenshots. The dots
   // below stay fully clickable — since this reads screenshotIndex off the
@@ -88,9 +138,17 @@ export default function Projects() {
     const next = (index + projects.length) % projects.length;
     setActiveIndex(next);
     setScreenshotIndex(0);
+    // Scrolls only the rail itself. scrollIntoView() also scrolls every
+    // overflow:hidden ancestor (the section slider included) if the element
+    // is even slightly out of view, which fights with this app's
+    // transform-based section navigation.
+    const rail = railRef.current;
     const el = thumbRefs.current[next];
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
+    if (rail && el) {
+      rail.scrollTo({
+        left: el.offsetLeft - (rail.clientWidth - el.offsetWidth) / 2,
+        behavior: "smooth",
+      });
     }
   };
 
@@ -142,11 +200,54 @@ export default function Projects() {
     },
   };
 
+  // The screenshot viewer itself — shared by the laptop and portrait frames
+  const screenBody = (
+    <div className="frame-body">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={`${active.id}-${screenshotIndex}`}
+          className="frame-media"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+        >
+          {activeScreenshot ? (
+            <img src={activeScreenshot} alt={active.title} className="frame-img" />
+          ) : (
+            <div className="frame-placeholder">
+              <FaImage className="placeholder-icon" />
+              <span>
+                Screenshot {screenshotIndex + 1} of {active.images.length}
+              </span>
+            </div>
+          )}
+        </motion.div>
+      </AnimatePresence>
+
+      {active.images.length > 1 && (
+        <>
+          <button
+            className="frame-nav-btn prev"
+            onClick={() => goToScreenshot(screenshotIndex - 1)}
+            aria-label="Previous screenshot"
+          >
+            <FaChevronLeft />
+          </button>
+          <button
+            className="frame-nav-btn next"
+            onClick={() => goToScreenshot(screenshotIndex + 1)}
+            aria-label="Next screenshot"
+          >
+            <FaChevronRight />
+          </button>
+        </>
+      )}
+    </div>
+  );
+
   return (
     <section id="projects" className="projects-section">
-      <div className="projects-glow glow-a"></div>
-      <div className="projects-glow glow-b"></div>
-
       <motion.div
         className="projects-wrapper"
         variants={containerVariants}
@@ -163,77 +264,52 @@ export default function Projects() {
           </p>
         </motion.div>
 
-        <motion.div className="showcase-stage" variants={itemVariants}>
-          {/* Laptop mockup — the browser-window frame sits inside a fixed-size
-              screen, so its height never depends on how much project text is
-              showing (that mismatch was what made the whole layout jump
-              vertically when switching to shorter/longer projects). */}
-          <div className="laptop-mockup">
-            <div className="laptop-screen">
-              <div className="stage-frame">
-                <div className="frame-chrome">
-                  <div className="frame-dots">
-                    <span className="dot red"></span>
-                    <span className="dot yellow"></span>
-                    <span className="dot green"></span>
-                  </div>
-                  <span className="frame-filename">{active.fileLabel}</span>
-                </div>
-
-                <div className="frame-body">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={`${active.id}-${screenshotIndex}`}
-                      className="frame-media"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3, ease: "easeOut" }}
-                    >
-                      {activeScreenshot ? (
-                        <img src={activeScreenshot} alt={active.title} className="frame-img" />
-                      ) : (
-                        <div className="frame-placeholder">
-                          <FaImage className="placeholder-icon" />
-                          <span>
-                            Screenshot {screenshotIndex + 1} of {active.images.length}
-                          </span>
-                        </div>
-                      )}
-                    </motion.div>
-                  </AnimatePresence>
-
-                  {active.images.length > 1 && (
-                    <>
-                      <button
-                        className="frame-nav-btn prev"
-                        onClick={() => goToScreenshot(screenshotIndex - 1)}
-                        aria-label="Previous screenshot"
-                      >
-                        <FaChevronLeft />
-                      </button>
-                      <button
-                        className="frame-nav-btn next"
-                        onClick={() => goToScreenshot(screenshotIndex + 1)}
-                        aria-label="Next screenshot"
-                      >
-                        <FaChevronRight />
-                      </button>
-                    </>
-                  )}
+        <motion.div
+          className={`showcase-stage ${isFramed ? "is-framed" : ""}`}
+          variants={itemVariants}
+        >
+          {/* Fixed-height media cell — every project (landscape laptop or
+              portrait/tall frame) is centered inside the same box, so the
+              layout never jumps in height when switching between shapes. */}
+          <div className="media-cell">
+            {isFramed ? (
+              <div className="portrait-mockup">
+                <div
+                  className="portrait-frame"
+                  style={{ aspectRatio: FRAME_RATIOS[orientation] }}
+                >
+                  {screenBody}
                 </div>
               </div>
-            </div>
+            ) : (
+              <div className="laptop-mockup">
+                <div className="laptop-screen">
+                  <div className="stage-frame">
+                    <div className="frame-chrome">
+                      <div className="frame-dots">
+                        <span className="dot red"></span>
+                        <span className="dot yellow"></span>
+                        <span className="dot green"></span>
+                      </div>
+                      <span className="frame-filename">{active.fileLabel}</span>
+                    </div>
 
-            <div className="laptop-base">
-              <span className="laptop-notch"></span>
-            </div>
+                    {screenBody}
+                  </div>
+                </div>
+
+                <div className="laptop-base">
+                  <span className="laptop-notch"></span>
+                </div>
+              </div>
+            )}
 
             {/* Per-project screenshot picker — separate from the prev/next
-                project arrows above, which cycle projects instead */}
-            {active.images.length > 1 && (
-              <div className="screenshot-dots">
-                {active.images.map((_, i) => (
+                project arrows in the thumbnail row, which cycle projects.
+                Always rendered (even empty) so its height stays reserved. */}
+            <div className="screenshot-dots">
+              {active.images.length > 1 &&
+                active.images.map((_, i) => (
                   <button
                     key={i}
                     className={`screenshot-dot ${i === screenshotIndex ? "active" : ""}`}
@@ -241,12 +317,11 @@ export default function Projects() {
                     aria-label={`Show screenshot ${i + 1}`}
                   ></button>
                 ))}
-              </div>
-            )}
+            </div>
           </div>
 
           {/* Title, description and tags for the active project */}
-          <div className="stage-info">
+          <div className="stage-info" onWheel={stopWheelIfScrollable}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={`${active.id}-info`}
@@ -318,6 +393,12 @@ export default function Projects() {
               </button>
             ))}
           </motion.div>
+
+          {/* Only shown on phones, where the thumbnail rail is hidden and
+              the arrows are the whole project switcher */}
+          <span className="project-counter">
+            {activeIndex + 1} / {projects.length}
+          </span>
 
           <button
             className="rail-nav-btn next"

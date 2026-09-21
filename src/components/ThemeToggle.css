@@ -1,42 +1,71 @@
 .theme-switch {
   position: fixed;
   top: 40px;
-  right: 40px;
+  /* Same right offset as the Resume button (see ResumeButton.css) so the
+     two line up along the right edge — keep these in sync. */
+  right: 30px;
   z-index: 1000;
   cursor: pointer;
   /* Prevents text highlighting if clicked rapidly */
-  user-select: none; 
+  user-select: none;
 
   opacity: 0;
-  animation: slideDownFade 0.6s ease-out 0.2s forwards;
+  /* Own keyframes on purpose: the shared slideDownFade ends at
+     translate(-50%, 0) because it was written for the centered navbar,
+     and with `forwards` that left this toggle permanently shifted left by
+     half its width — which is why its right edge never lined up with the
+     Resume button. */
+  animation: theme-toggle-in 0.6s ease-out 0.2s forwards;
+}
+
+@keyframes theme-toggle-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .switch-track {
   position: relative;
   width: 64px;
   height: 32px;
-  
-  /* Pulls colors from your global.css */
-  background: var(--card);
-  border: 1px solid var(--border, rgba(150, 150, 150, 0.3));
+
+  /* var(--card) is solid/opaque in dark mode, which defeats the blur below
+     — same translucent-glass recipe used everywhere else on the site
+     instead, so the toggle actually reads as glass rather than a flat pill. */
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 30px; /* Creates the pill shape */
-  
+
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 10px;
   box-sizing: border-box;
-  
+
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
 }
 
-/* Styling for the icons sitting in the background */
-.icon-moon, .icon-sun {
-  color: var(--text);
-  z-index: 1;
-  transition: opacity 0.3s ease;
+body.light .switch-track {
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
+
+/* Styling for the icons sitting in the background — tinted with the
+   brand's purple (moon) / warm (sun) accents instead of plain text color,
+   so the toggle ties into the same palette as the rest of the site. */
+.icon-moon, .icon-sun {
+  z-index: 1;
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+.icon-moon { color: #a855f7; }
+.icon-sun { color: #f97316; }
 
 /* Highlight the active theme icon, dim the inactive one */
 .theme-switch.dark .icon-moon { opacity: 1; }
@@ -45,25 +74,61 @@
 .theme-switch.light .icon-moon { opacity: 0.3; }
 .theme-switch.light .icon-sun { opacity: 1; }
 
-/* The sliding circle */
+/* The sliding circle — a glossy brand gradient instead of a flat fill,
+   matching the icon badges used across the rest of the site */
 .switch-thumb {
   position: absolute;
   top: 3px;
   left: 3px;
-  
+
   width: 24px;
   height: 24px;
-  
-  /* Uses your text color for contrast against the track */
-  background: var(--text);
+
+  background:
+    radial-gradient(120% 130% at 25% 20%, rgba(255, 255, 255, 0.4) 0%, transparent 45%),
+    linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+  box-shadow: 0 3px 10px rgba(168, 85, 247, 0.5);
   border-radius: 50%;
   z-index: 2;
-  
+
   /* Smooth sliding animation */
   transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
 /* Moves the thumb to the right when in light mode */
 .theme-switch.light .switch-thumb {
-  transform: translateX(32px); 
+  transform: translateX(32px);
+}
+
+/* --- RESPONSIVE --- */
+/* Shares the same top-edge row as the mobile hamburger trigger (see
+   Navbar.css), so it moves to the opposite corner and shrinks slightly to
+   avoid crowding a phone-width screen. */
+@media (max-width: 768px) {
+  .theme-switch {
+    top: 20px;
+    right: 30px;
+  }
+
+  .switch-track {
+    width: 54px;
+    height: 28px;
+    padding: 0 8px;
+  }
+
+  .switch-thumb {
+    width: 20px;
+    height: 20px;
+  }
+
+  .theme-switch.light .switch-thumb {
+    transform: translateX(26px);
+  }
+}
+
+/* Resume button tightens to 16px from the edge on phones, so this does too */
+@media (max-width: 600px) {
+  .theme-switch {
+    right: 16px;
+  }
 }
