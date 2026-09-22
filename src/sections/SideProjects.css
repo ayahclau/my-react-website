@@ -45,10 +45,6 @@
 }
 
 /* --- MOSAIC GRID --- */
-/* Two tall portrait posters (menu, dressed) flank a stacked pair (the
-   square NASA pubmat over the digital-art placeholder) — an asymmetric
-   bento layout like About's, sized to the same viewport-based budget the
-   rest of the site uses so it fits one screen without scrolling. */
 .side-mosaic {
   width: 100%;
   height: clamp(340px, calc(var(--app-h, 100vh) * 0.56), 540px);
@@ -119,8 +115,6 @@
   color: rgba(255, 255, 255, 0.45);
 }
 
-/* Bottom scrim guarantees the caption reads regardless of how bright the
-   poster underneath is (the NASA navy vs. the cream menu vs. pink denim) */
 .side-tile-scrim {
   position: absolute;
   inset: 0;
@@ -204,12 +198,6 @@
   padding: 36px;
   box-sizing: border-box;
 
-  /* Glassmorphism that keeps a hint of the project's own color instead of
-     going fully clear: a light tint of --card-a/--card-b (not the opaque
-     gradient the tiles use) sitting over a heavy frosted blur — more blur,
-     less color, than a plain tinted panel. Plain fallback first for
-     browsers without color-mix() support — the second declaration
-     silently wins wherever it's understood. */
   background: rgba(20, 16, 30, 0.5);
   background: linear-gradient(
     165deg,
@@ -265,8 +253,6 @@
   min-width: 0;
 }
 
-/* Arrow + screenshot + arrow, as plain flex siblings — the arrows live
-   outside the poster's own edges instead of floating on top of it. */
 .side-modal-frame-row {
   width: 100%;
   display: flex;
@@ -276,31 +262,25 @@
 }
 
 .side-modal-screen {
+  --shot-ratio: 0.7071;
+  --shot-max-w: 400px;
+  --shot-max-h: calc(var(--app-h, 100vh) * 0.68);
   position: relative;
-  flex: 1;
+  flex: 0 1 auto;
   min-width: 0;
-  max-width: 400px;
-  aspect-ratio: 3 / 4; /* default — overridden per category below to match
-                           each screenshot's own proportions, so object-fit:
-                           cover crops as little as possible */
-  max-height: 68vh;
+  width: min(100%, var(--shot-max-w), calc(var(--shot-max-h) * var(--shot-ratio)));
+  aspect-ratio: var(--shot-ratio);
   border-radius: 16px;
   overflow: hidden;
   background: rgba(0, 0, 0, 0.15);
 }
 
-/* NASA pubmats are square (1080x1080) — the shared 3:4 frame was cropping
-   a quarter of their width off. Menu/Dressed posters are true ~0.71
-   portraits (1414x2000 / 1587x2245), close enough to 3:4 to keep as-is. */
 .side-modal--nasa .side-modal-screen {
-  aspect-ratio: 1 / 1;
+  --shot-ratio: 1;
 }
 
-/* The art pieces don't share one ratio the way the posters do (0.67–0.96
-   across art1–art5) — cover would crop unpredictably, risky on character
-   art. contain instead, with a squarer frame that splits the difference. */
 .side-modal--art .side-modal-screen {
-  aspect-ratio: 4 / 5;
+  --shot-ratio: 0.8;
 }
 
 .side-modal--art .side-modal-img {
@@ -351,9 +331,6 @@
   letter-spacing: 0.2px;
 }
 
-/* Plain flex siblings of .side-modal-screen now (see .side-modal-frame-row)
-   instead of absolutely positioned over the artwork, per design request —
-   they sit just outside the poster's edges. */
 .side-modal-nav {
   flex: 0 0 auto;
   width: 36px;
@@ -444,8 +421,6 @@
 
 /* --- RESPONSIVE --- */
 @media (max-width: 900px) {
-  /* The 3-column asymmetric layout gets cramped before the fonts do —
-     simplify to an even 2x2 so nothing gets crushed. */
   .side-mosaic {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
@@ -455,8 +430,6 @@
   }
 }
 
-/* The side-by-side landscape layout needs real width to breathe — below
-   that it collapses back to poster-on-top, info-below. */
 @media (max-width: 720px) {
   .side-modal {
     max-width: 480px;
@@ -473,16 +446,16 @@
   }
 
   .side-modal-screen {
-    max-width: 320px;
-    max-height: 42vh;
+    --shot-max-w: 320px;
+    --shot-max-h: calc(var(--app-h, 100vh) * 0.42);
     margin: 0 auto;
   }
 }
 
 @media (max-width: 640px) {
   .side-section {
-    padding: 62px 6% 16px;
-    align-items: flex-start;
+    padding: 16px 6%;
+    align-items: center;
   }
 
   .side-header {
@@ -528,7 +501,7 @@
   }
 
   .side-modal-screen {
-    max-height: 34vh;
+    --shot-max-h: calc(var(--app-h, 100vh) * 0.34);
   }
 
   .side-modal-title {

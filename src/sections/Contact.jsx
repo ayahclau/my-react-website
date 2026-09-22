@@ -5,22 +5,16 @@ import "./Contact.css";
 
 const CONTACT_EMAIL = "aclfilipinas.work@gmail.com";
 
-// The form posts to Web3Forms, which emails each submission straight to
-// CONTACT_EMAIL — no backend of our own, and no mail app needed on the
-// visitor's side. This key is public by design (it ships in the client
-// bundle no matter what); it only lets people submit to this one form.
 const WEB3FORMS_ACCESS_KEY = "540022a0-4a59-497c-93c4-636c1817bdc1";
 
 export default function Contact() {
   const formRef = useRef(null);
-  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+  const [status, setStatus] = useState("idle");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData(formRef.current);
 
-    // Honeypot: hidden from people, but bots fill in every field they
-    // find. Pretend it worked so the bot doesn't retry.
     if (data.get("botcheck")) {
       setStatus("sent");
       formRef.current.reset();
@@ -70,9 +64,6 @@ export default function Contact() {
             Have an exciting project, a job opportunity, or just want to say hello? Drop a message and let's create something memorable.
           </p>
 
-          {/* Plain info card, not a mailto: link — mailto depends on the
-              visitor having a mail app set up and often just does nothing.
-              The form on the right is the reliable way to reach out. */}
           <div className="contact-email-card">
             <div className="contact-icon-wrapper">
               <FaEnvelope />

@@ -95,9 +95,6 @@ body.light .portal-bg-text {
   align-items: center;
   text-align: center;
   box-sizing: border-box;
-  /* .portal-container has no scroll of its own (overflow: hidden, no
-     fallback), so on a short/landscape viewport this card could otherwise
-     get clipped with no way to reach the button below the fold. */
   max-height: 92vh;
   overflow-y: auto;
   scrollbar-width: none;
@@ -134,14 +131,6 @@ body.light .portal-card {
   z-index: 2;
 }
 
-/* The source photo is a 3:4 portrait with the face in the upper-middle,
-   slightly right of center. object-fit:cover on a square shows the whole
-   width, so the face came out small. Three pieces put it back in frame:
-   - object-position picks the vertical window around the face (16% down),
-   - scale(2.5) about the box center (which is that window's center) zooms
-     in until the face + hair fill the circle,
-   - translateX(-14%) then slides the picture left, moving the crop right
-     onto the face, which sits right of the photo's middle. */
 .portal-avatar-img {
   display: block;
   width: 100%;
@@ -175,8 +164,6 @@ body.light .portal-card {
   animation: halo-spin 25s linear infinite;
 }
 
-/* Tiny twinkling sparkles orbiting the avatar — same restrained twinkle
-   used on the About photo, no text/icons, just a bit of charm */
 .avatar-sparkle {
   position: absolute;
   border-radius: 50%;
@@ -313,14 +300,10 @@ body.light .portal-card {
 /* Responsive Tweaks */
 @media (max-width: 640px) {
   .portal-bg-text {
-    /* The clamp() floor was 220px — way bigger than a phone screen is wide,
-       so on mobile the word was rendering far larger than intended instead
-       of actually scaling down with the viewport. */
     font-size: clamp(90px, 34vw, 180px);
     letter-spacing: -4px;
   }
 
-  /* 82vw (was 90vw) leaves a visible margin on each side of the card */
   .portal-card {
     width: 82vw;
     max-width: 340px;
@@ -361,8 +344,6 @@ body.light .portal-card {
     font-size: 13.5px;
   }
 
-  /* "Press ENTER or SPACE" is a desktop-keyboard hint with no equivalent
-     on a touchscreen, so it's just clutter here rather than useful copy. */
   .portal-hotkey {
     display: none;
   }
@@ -379,22 +360,10 @@ body.light .portal-card {
   }
 }
 
-/* Portrait phones: the card covers the whole middle of the screen, so
-   "hello" sitting behind it was mostly hidden and read as tiny. It moves
-   up into the free space above the card instead, and gets bigger and
-   a touch more opaque now that nothing is covering it. Sized by
-   whichever is smaller of width and height so it always fits in the
-   space left above the card, even on short phones. */
 @media (max-width: 640px) and (orientation: portrait) {
   .portal-bg-text {
     left: 0;
     right: 0;
-    /* Anchored just above the card. The card is vertically centered and
-       ~280px tall at this size (so its top edge is ~140px above center),
-       and the text box has ~0.22em of empty descender space under the
-       letters — the -0.22em cancels that out so the visible gap between
-       the letters and the card stays about the same whatever size the
-       word ends up. */
     bottom: calc(50% + 168px - 0.22em);
     padding-left: 0;
     text-align: center;
@@ -409,9 +378,6 @@ body.light .portal-card {
   }
 }
 
-/* Landscape phones have very little vertical room — compact the stack
-   further so the button never ends up fighting the max-height scroll
-   fallback on .portal-card. */
 @media (max-height: 480px) and (orientation: landscape) {
   .portal-card {
     padding: 20px 28px;

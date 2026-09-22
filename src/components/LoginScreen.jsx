@@ -7,7 +7,6 @@ import "./LoginScreen.css";
 export default function LoginScreen({ onLogin }) {
   const [isUnlocking, setIsUnlocking] = useState(false);
 
-  // 🌟 FIX: Wrapped in useCallback to resolve React Hook dependency warnings
   const handleUnlock = useCallback(() => {
     if (isUnlocking) return;
     setIsUnlocking(true);
@@ -33,8 +32,6 @@ export default function LoginScreen({ onLogin }) {
       <div className="portal-blob blob-1"></div>
       <div className="portal-blob blob-2"></div>
 
-      {/* 🌟 Lowercase, Italicized, Giant "hello" Text — reveals left to
-          right on load like it's being handwritten */}
       <motion.h1
         className="portal-bg-text"
         initial={{ clipPath: "inset(0% 100% 0% 0%)" }}
@@ -64,9 +61,6 @@ export default function LoginScreen({ onLogin }) {
             <span className="avatar-sparkle avatar-sparkle-1"></span>
             <span className="avatar-sparkle avatar-sparkle-2"></span>
             <span className="avatar-sparkle avatar-sparkle-3"></span>
-            {/* The photo is a tall portrait with the face off to one side of a
-                busy background, so it's cropped/zoomed inside a circular
-                wrapper (see .portal-avatar-img) rather than shown whole. */}
             <div className="portal-avatar">
               <img
                 src={profilePhoto}

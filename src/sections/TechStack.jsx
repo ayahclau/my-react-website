@@ -23,7 +23,6 @@ const techItems = [
   { name: "NetBeans", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/netbeans/netbeans-original.svg" },
 ];
 
-// Distribute 18 items evenly across 3 orbital rings
 const innerRing = techItems.slice(0, 5);
 const middleRing = techItems.slice(5, 11);
 const outerRing = techItems.slice(11, 18);
@@ -52,10 +51,6 @@ const itemVariants = {
   },
 };
 
-// The orbit is a much bigger, busier element than a text block or bento
-// card, so the same small 25px slide the rest of the site uses barely
-// registers against it — a longer travel distance plus a scale-in gives it
-// a reveal that actually reads at that size.
 const orbitVariants = {
   hidden: { y: 50, opacity: 0, scale: 0.9 },
   visible: {

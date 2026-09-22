@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import paperCutout from "../assets/paper_cutout.png"; // 👈 Update path to your photo
+import paperCutout from "../assets/paper_cutout.png";
 import {
   FaGraduationCap,
   FaMapMarkerAlt,

@@ -25,20 +25,6 @@ import avw3 from "../assets/avw3.png";
 import avw4 from "../assets/avw4.png";
 import "./Projects.css";
 
-// 🌟 Project data, pulled from the Experience section of the resume.
-// `images` is an array so a project can carry multiple screenshots at
-// whatever native size each one happens to be — the frame letterboxes each
-// one (object-fit: contain) instead of cropping, so mismatched aspect
-// ratios never distort. Leave entries as `null` to keep the numbered
-// placeholder frame until you have the real screenshot.
-//
-// Optional `orientation` picks the frame shape for the whole project:
-//   (omitted)  -> auto-detected from the first screenshot's real size
-//   "landscape"-> laptop mockup (web/app screenshots)
-//   "portrait" -> 3:4 poster frame (graphics, posters, mobile screens)
-//   "tall"     -> 9:16 frame (phone screenshots, long infographics)
-// Set it explicitly for a project that uses `null` placeholders, since
-// there's no image yet to measure.
 const projects = [
   {
     id: "univents",
@@ -81,8 +67,6 @@ const projects = [
     images: [agreville1, agreville2, agreville3, agreville4],
   },
   {
-    // Listed under "Publication" on the resume rather than "Experience", so
-    // there's no job role to show — the role line says what it is instead.
     id: "avw-space",
     title: "AVW-Space: Comparative Evaluation of Large Language Models for Active Video Learning",
     role: "Research Publication",
@@ -96,12 +80,6 @@ const projects = [
 
 const FRAME_RATIOS = { portrait: "3 / 4", tall: "9 / 16" };
 
-// The app hijacks the window's wheel event for section-to-section
-// navigation (App.jsx), which also blocks native scrolling inside any
-// overflow:auto box. Stopping propagation here — only while the box can
-// actually still scroll that way — lets a long description scroll with the
-// wheel, and hands the wheel back to section navigation once it's at its
-// top/bottom edge.
 const stopWheelIfScrollable = (e) => {
   const el = e.currentTarget;
   const canScrollDown = el.scrollTop + el.clientHeight < el.scrollHeight - 1;
@@ -122,8 +100,6 @@ export default function Projects() {
   const active = projects[activeIndex];
   const activeScreenshot = active.images[screenshotIndex];
 
-  // Frame shape for projects that don't set `orientation` themselves:
-  // measured from the first screenshot's real dimensions.
   useEffect(() => {
     let cancelled = false;
     projects.forEach((project) => {
@@ -146,11 +122,6 @@ export default function Projects() {
   const orientation = active.orientation || detected[active.id] || "landscape";
   const isFramed = orientation === "portrait" || orientation === "tall";
 
-  // 🌟 Auto-advance through the active project's screenshots. The dots
-  // below stay fully clickable — since this reads screenshotIndex off the
-  // functional updater and depends on it, every change (from the timer OR
-  // a manual click) restarts the countdown, so a screenshot never gets cut
-  // short right after someone picks it by hand.
   useEffect(() => {
     if (active.images.length <= 1) return;
     const timer = setTimeout(() => {
@@ -163,10 +134,6 @@ export default function Projects() {
     const next = (index + projects.length) % projects.length;
     setActiveIndex(next);
     setScreenshotIndex(0);
-    // Scrolls only the rail itself. scrollIntoView() also scrolls every
-    // overflow:hidden ancestor (the section slider included) if the element
-    // is even slightly out of view, which fights with this app's
-    // transform-based section navigation.
     const rail = railRef.current;
     const el = thumbRefs.current[next];
     if (rail && el) {
@@ -182,8 +149,6 @@ export default function Projects() {
     setScreenshotIndex((index + len) % len);
   };
 
-  // 🌟 Simple drag-to-scroll for the thumbnail rail (mouse/trackpad friendly,
-  // independent of the app's wheel-based section navigation)
   const handlePointerDown = (e) => {
     const rail = railRef.current;
     if (!rail) return;
@@ -202,7 +167,6 @@ export default function Projects() {
     dragState.current.down = false;
   };
 
-  // Prevents a drag gesture from also firing a thumbnail's click
   const handleThumbClick = (index) => {
     if (dragState.current.moved) return;
     goTo(index);
@@ -225,7 +189,6 @@ export default function Projects() {
     },
   };
 
-  // The screenshot viewer itself — shared by the laptop and portrait frames
   const screenBody = (
     <div className="frame-body">
       <AnimatePresence mode="wait">
@@ -293,9 +256,6 @@ export default function Projects() {
           className={`showcase-stage ${isFramed ? "is-framed" : ""}`}
           variants={itemVariants}
         >
-          {/* Fixed-height media cell — every project (landscape laptop or
-              portrait/tall frame) is centered inside the same box, so the
-              layout never jumps in height when switching between shapes. */}
           <div className="media-cell">
             {isFramed ? (
               <div className="portrait-mockup">
@@ -329,9 +289,6 @@ export default function Projects() {
               </div>
             )}
 
-            {/* Per-project screenshot picker — separate from the prev/next
-                project arrows in the thumbnail row, which cycle projects.
-                Always rendered (even empty) so its height stays reserved. */}
             <div className="screenshot-dots">
               {active.images.length > 1 &&
                 active.images.map((_, i) => (
@@ -419,8 +376,6 @@ export default function Projects() {
             ))}
           </motion.div>
 
-          {/* Only shown on phones, where the thumbnail rail is hidden and
-              the arrows are the whole project switcher */}
           <span className="project-counter">
             {activeIndex + 1} / {projects.length}
           </span>

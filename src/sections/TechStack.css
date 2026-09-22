@@ -124,11 +124,6 @@ body.light .category-card {
 }
 
 /* --- ORBITAL SYSTEM --- */
-/* All geometry below is driven by --orbit-scale so breakpoints can shrink
-   the system's real layout box (not just its painted appearance) — a plain
-   transform:scale() leaves the unscaled box behind, which on a short/narrow
-   viewport blows past 100vh and gets clipped by .tech-section's
-   overflow:hidden. */
 .orbit-system {
   --orbit-scale: 1;
   position: relative;
@@ -196,9 +191,6 @@ body.light .category-card {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* rings fully overlap (they're all centered squares), so without this
-     whichever ring is last in the DOM would sit on top and swallow hover
-     events meant for the rings underneath it */
   pointer-events: none;
 }
 
@@ -230,9 +222,6 @@ body.light .category-card {
   pointer-events: auto;
 }
 
-/* Radii are spaced with wide margins between rings so a card can scale up
-   on hover without ever clipping a neighboring ring's item while the whole
-   system keeps spinning underneath it. */
 .orbit-inner .orbit-item {
   transform: rotate(var(--angle)) translateY(calc(-99px * var(--orbit-scale))) rotate(calc(-1 * var(--angle)));
 }
@@ -245,11 +234,6 @@ body.light .category-card {
   transform: rotate(var(--angle)) translateY(calc(-278px * var(--orbit-scale))) rotate(calc(-1 * var(--angle)));
 }
 
-/* Keep icons oriented vertically straight up during spin. transform-origin
-   is pinned to the item's true anchor point (top-left of this zero-width
-   box) — leaving it at the default 50%/50% rotates the card around a point
-   offset from its own center, which makes it visibly wobble off its ring
-   as the counter-spin animation runs. */
 .counter-rotate {
   transform-origin: 0 0;
 }
@@ -362,10 +346,6 @@ body.light .tech-card {
 }
 
 /* --- RESPONSIVE SCALING --- */
-/* .tech-section has overflow:hidden, so the stacked (column) layout below
-   must actually fit within 100vh — shrinking --orbit-scale resizes the
-   orbit's real layout box (see the "ORBITAL SYSTEM" comment above), not
-   just its painted size, so the column never overflows the viewport. */
 @media (max-width: 1150px) {
   .tech-wrapper {
     flex-direction: column;
@@ -399,7 +379,6 @@ body.light .tech-card {
 }
 
 @media (max-width: 640px) {
-  /* Clears the 46px hamburger/theme-toggle buttons pinned at top:20px */
   .tech-section {
     padding-top: 64px;
   }
@@ -419,10 +398,6 @@ body.light .tech-card {
     line-height: 1.5;
   }
 
-  /* Category cards: was a stacked icon / label / count block (~105px tall
-     each); now icon on the left and label + count stacked beside it, so
-     the whole 2x2 grid takes about half the height and the orbit below
-     gets the room instead. */
   .tech-categories {
     max-width: 340px;
     gap: 8px;
@@ -454,20 +429,12 @@ body.light .tech-card {
     font-size: 10px;
   }
 
-  /* Orbit size = min(width-based scale, height-based scale). Width keeps
-     the outer ring (plus the half-card overhang, ~614px * scale) inside
-     the screen; height keeps title + categories + orbit inside one
-     100vh slot (this section is overflow:hidden and the app hijacks
-     scroll, so nothing that overflows can be reached). */
   .orbit-system {
     --s-w: 0.6;
     --s-h: 0.6;
     --orbit-scale: min(var(--s-w), var(--s-h));
   }
 
-  /* .tech-name's font-size doesn't scale with --orbit-scale, so at this
-     size it was as wide as the whole card and squeezing the icon down to
-     make room for it — dropping the label lets the logo use the full card. */
   .tech-name {
     display: none;
   }

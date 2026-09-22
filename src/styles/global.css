@@ -9,12 +9,12 @@ body.dark {
   --tooltip-text: #ffffff;
 
   /* --- DARK MODE GLOWS (Vibrant & Deep) --- */
-  --blob-1: rgba(124, 58, 237, 0.4);      /* Deep Violet */
-  --blob-2: rgba(225, 29, 72, 0.3);       /* Deep Rose */
-  --cursor-core: rgba(192, 38, 211, 0.4);  /* Magenta core */
-  --cursor-mid: rgba(236, 72, 153, 0.2);   /* Pink middle */
-  --cursor-outer: rgba(249, 115, 22, 0.05);/* Orange edge */
-  --noise-opacity: 0.1;                    /* Stronger grain for dark mode */
+  --blob-1: rgba(124, 58, 237, 0.4);
+  --blob-2: rgba(225, 29, 72, 0.3);
+  --cursor-core: rgba(192, 38, 211, 0.4);
+  --cursor-mid: rgba(236, 72, 153, 0.2);
+  --cursor-outer: rgba(249, 115, 22, 0.05);
+  --noise-opacity: 0.1;
 }
 
 
@@ -29,12 +29,12 @@ body.light {
   --tooltip-text: #111111;
 
   /* --- LIGHT MODE GLOWS (Soft Pastels) --- */
-  --blob-1: rgba(56, 189, 248, 0.8);      /* Soft Sky Blue */
-  --blob-2: rgba(251, 146, 60, 0.7);     /* Soft Pastel Peach */
-  --cursor-core: rgba(168, 85, 247, 0.5); /* Muted Lavender core */
-  --cursor-mid: rgba(244, 63, 94, 0.3);   /* Very soft pink */
-  --cursor-outer: rgba(56, 189, 248, 0.3);/* Almost invisible blue edge */
-  --noise-opacity: 0.12;                   /* Lighter grain so light mode looks clean */
+  --blob-1: rgba(56, 189, 248, 0.8);
+  --blob-2: rgba(251, 146, 60, 0.7);
+  --cursor-core: rgba(168, 85, 247, 0.5);
+  --cursor-mid: rgba(244, 63, 94, 0.3);
+  --cursor-outer: rgba(56, 189, 248, 0.3);
+  --noise-opacity: 0.12;
 }
 
 

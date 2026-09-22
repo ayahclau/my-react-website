@@ -23,8 +23,7 @@ function App() {
   const [appHeight, setAppHeight] = useState(() => window.innerHeight);
   const isScrollingRef = useRef(false);
 
-  // 🌟 Your active sections array mapped exactly to index positions
-  const sections = ["home", "about", "tech", "projects", "side-work", "contact"]; //include "projects" if you want to add it to the scrollable sections
+  const sections = ["home", "about", "tech", "projects", "side-work", "contact"];
 
   useEffect(() => {
     if (!document.body.className) {
@@ -32,11 +31,6 @@ function App() {
     }
   }, []);
 
-  // Real visible height of the screen. `100vh` on a phone is the height with
-  // the browser toolbars hidden, so every section (sized 100vh) ran taller
-  // than what's actually on screen and its bottom got cut off. Exposed as
-  // --app-h for the CSS and used for the slide distance below, so the two
-  // always agree.
   useEffect(() => {
     const update = () => {
       const h = window.innerHeight;
@@ -52,14 +46,9 @@ function App() {
     };
   }, []);
 
-  // 🌟 Tracks wheel tracks and custom navbar click triggers
   useEffect(() => {
     if (!hasEntered) return;
 
-    // 🌟 Shared by wheel and touch: walks up from the event target to find
-    // an ancestor that actually scrolls on its own (e.g. the side-work
-    // project modal, once its content overflows). Used so section-hijacking
-    // yields to that element's own scrolling instead of trapping it.
     const scrollableAncestor = (el) => {
       while (el && el !== document.body && el !== document.documentElement) {
         if (el.scrollHeight > el.clientHeight + 1) {
@@ -72,32 +61,25 @@ function App() {
     };
 
     const handleWheel = (e) => {
-      // 🌟 If the wheel is over something that scrolls on its own (like an
-      // open project modal) and it hasn't hit its edge yet in that
-      // direction, let it scroll natively instead of hijacking for the
-      // section slider — otherwise content below the fold (description,
-      // tags) was completely unreachable.
       const scroller = scrollableAncestor(e.target);
       if (scroller) {
         const atBottom = scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 1;
         const atTop = scroller.scrollTop <= 0;
         if ((e.deltaY > 0 && !atBottom) || (e.deltaY < 0 && !atTop)) {
-          return; // don't preventDefault — let the modal scroll itself
+          return;
         }
       }
 
-      e.preventDefault(); // Stop native jumpy browsing shifts
+      e.preventDefault();
       if (isScrollingRef.current) return;
 
       if (e.deltaY > 25) {
-        // Scrolling Down
         if (currentSection < sections.length - 1) {
           isScrollingRef.current = true;
           setCurrentSection((prev) => prev + 1);
-          setTimeout(() => { isScrollingRef.current = false; }, 800); // Transition cooldown
+          setTimeout(() => { isScrollingRef.current = false; }, 800);
         }
       } else if (e.deltaY < -25) {
-        // Scrolling Up
         if (currentSection > 0) {
           isScrollingRef.current = true;
           setCurrentSection((prev) => prev - 1);
@@ -106,7 +88,6 @@ function App() {
       }
     };
 
-    // 🌟 Listens for navigation messages broadcast from the Navbar
     const handleNavbarScroll = (e) => {
       const targetIndex = sections.indexOf(e.detail);
       if (targetIndex !== -1) {
@@ -114,11 +95,6 @@ function App() {
       }
     };
 
-    // 🌟 Touch screens never fire "wheel", so on a phone the sections
-    // couldn't be scrolled at all — a vertical swipe now does what the
-    // wheel does. A swipe that starts inside something that scrolls on its
-    // own (a long description, say) scrolls that instead, and only moves
-    // to the next section once that content is at its end.
     let touch = null;
 
     const handleTouchStart = (e) => {
@@ -139,7 +115,7 @@ function App() {
     const handleTouchEnd = (e) => {
       if (!touch) return;
       const t = e.changedTouches[0];
-      const dy = touch.y - t.clientY; // > 0: finger moved up (go down a section)
+      const dy = touch.y - t.clientY;
       const dx = touch.x - t.clientX;
       const { scroller, scrollTop } = touch;
       touch = null;
@@ -170,7 +146,7 @@ function App() {
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [hasEntered, currentSection, sections]); // Added sections dependency for stability
+  }, [hasEntered, currentSection, sections]);
 
   return (
     <>
@@ -194,8 +170,8 @@ function App() {
           <div className="app-viewport-wrapper">
             <motion.div
               style={{ width: "100%", height: "100%" }}
-              animate={{ y: -currentSection * appHeight }} // Shifts by exactly one screen height per section (px, from the real visible height)
-              transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }} // Elegant cinematic glide curve
+              animate={{ y: -currentSection * appHeight }}
+              transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
             >
               <div className="snap-section-view" id="home"><Home /></div>
               <div className="snap-section-view" id="about"><About /></div>   

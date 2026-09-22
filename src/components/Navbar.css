@@ -1,17 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap');
 
-/* Navbar container */
-/* True glassmorphism per theme: dark mode gets the same translucent-white-
-   over-dark-page "frosted glass" recipe used everywhere else on the site
-   (About's bento cards, Contact's form deck, etc.); light mode gets a
-   light frost instead. var(--card) was solid/opaque in dark mode, which
-   made the blur pointless — it just looked like a flat dark pill. */
 .navbar {
-  /* 🌟 CHANGE THIS FROM sticky TO fixed */
   position: fixed;
   top: 30px;
 
-  /* Perfectly centers the fixed banner horizontally across the screen */
   left: 50%;
   transform: translateX(-50%);
   margin: 0 auto;
@@ -28,13 +20,11 @@
   z-index: 1000;
   transition: all 0.3s ease;
 
-  /* Your entrance animation */
   animation: slideDownFade 0.6s ease-out forwards;
 }
 
 body.light .navbar {
   background: rgba(255, 255, 255, 0.55);
-  /* border: 1px solid rgba(0, 0, 0, 0.08); */
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
 }
 
@@ -55,15 +45,11 @@ body.light .navbar {
   transition: transform 0.2s ease, color 0.2s ease;
 }
 
-/* Was a hardcoded `color: white` — invisible against the light-mode navbar's
-   pale background. The brand purple works as a hover accent in both themes. */
 .nav-item:hover .icon {
   transform: translateY(-3px) scale(1.1);
   color: #a855f7;
 }
 
-/* Label shown on hover — a glass box (blurred, no border) themed to match
-   the navbar itself: dark glass in dark mode, light glass in light mode. */
 .tooltip {
   position: absolute;
   bottom: -50px;
@@ -103,10 +89,6 @@ body.light .tooltip {
 }
 
 /* --- MOBILE: HAMBURGER MENU --- */
-/* Hidden by default (desktop pill is used instead); the media query below
-   flips which one is visible. Tooltip-on-hover doesn't work on touch, and
-   five icon-only buttons get cramped on a phone-width screen, so under
-   768px the whole navbar becomes a trigger + labeled dropdown instead. */
 .navbar-burger {
   display: none;
   position: fixed;

@@ -45,10 +45,6 @@
 }
 
 /* --- SHOWCASE STAGE --- */
-/* --stage-h is the height of the media column and is the same for every
-   project (landscape laptop, portrait poster, tall phone shot alike), so
-   switching between them never resizes the row. It's also viewport-based,
-   so the whole page keeps fitting on shorter laptop screens. */
 .showcase-stage {
   --stage-h: clamp(300px, calc(var(--app-h, 100vh) * 0.54), 500px);
   width: 100%;
@@ -69,8 +65,6 @@
 }
 
 /* --- LAPTOP MOCKUP (landscape projects) --- */
-/* Width is capped by both the column and the cell height (16:10 screen +
-   14px base + the 32px dots row), so it always fits inside .media-cell. */
 .laptop-mockup {
   width: min(100%, calc((var(--stage-h) - 46px) * 1.6));
   flex: none;
@@ -103,8 +97,6 @@
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 
-/* Screenshot frame, echoing the window-chrome look from Home — now the
-   "display" sitting inside the laptop bezel above */
 .stage-frame {
   position: relative;
   width: 100%;
@@ -149,8 +141,6 @@
   opacity: 0.45;
 }
 
-/* Laptop base — the chassis strip below the screen, wider than the
-   display like a real laptop's lower half */
 .laptop-base {
   position: relative;
   width: 108%;
@@ -172,10 +162,6 @@
 }
 
 /* --- PORTRAIT / TALL FRAME (graphics, posters, phone screens) --- */
-/* Same dark bezel as the laptop but with no browser chrome — it's a
-   poster/screen viewer, and the aspect ratio comes from the project's
-   `orientation` (set inline in Projects.jsx). Height is fixed from the
-   cell; width follows from the ratio. */
 .portrait-mockup {
   width: 100%;
   display: flex;
@@ -204,8 +190,6 @@
   position: relative;
   flex: 1;
   min-height: 0;
-  /* Constant neutral "display" surface so screenshots of any size letterbox
-     consistently instead of showing mismatched glass/ambient color behind them */
   background: #0c0c0f;
 }
 
@@ -265,9 +249,6 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  /* Fixed light color, not var(--text) — this sits on the always-dark
-     "screen" surface (.frame-body) regardless of site theme, so it needs
-     its own contrast rather than following light/dark mode. */
   color: #ffffff;
   opacity: 0.4;
   background: repeating-linear-gradient(
@@ -313,7 +294,6 @@
   opacity: 1;
 }
 
-/* No hover on touch screens, so the arrows would otherwise never show */
 @media (hover: none) {
   .frame-nav-btn {
     opacity: 1;
@@ -329,11 +309,6 @@
 .frame-nav-btn.next { right: 14px; }
 
 /* --- INFO PANEL --- */
-/* Centered within the row via align-self. Capped to the media cell's
-   height and scrollable, so a long description (or a project with lots of
-   tags) can never push the page taller — it scrolls inside its own box.
-   The child uses auto margins instead of justify-content:center, which
-   would make the top of overflowing content unreachable. */
 .stage-info {
   min-width: 0;
   max-height: var(--stage-h);
@@ -428,15 +403,10 @@ body.light .info-tag {
 }
 
 /* --- THUMBNAIL RAIL --- */
-/* The prev/next arrows flanking the rail switch projects; the arrows
-   inside the screen switch screenshots. */
 .thumbnail-row {
   width: 100%;
   display: flex;
   align-items: center;
-  /* Centered as a group with the rail sized to its thumbnails (below), so
-     the arrows sit right against the rail instead of out at the far edges
-     of the page with a gap of empty space in between. */
   justify-content: center;
   gap: 10px;
 }
@@ -472,16 +442,8 @@ body.light .rail-nav-btn {
   display: none;
 }
 
-/* No scroll-snap here on purpose — it fought with the programmatic
-   centering in Projects.jsx (goTo), most visibly on the last item. The
-   first/last auto margins below center the row when it fits and collapse
-   to zero when it overflows — unlike justify-content:center, which cuts
-   off (and makes unreachable) the leading items once the row overflows,
-   exactly what happens on a phone. */
 .thumbnail-rail {
   position: relative;
-  /* Content-width, not flex:1 — but still allowed to shrink (min-width:0)
-     and scroll once there are more thumbnails than fit. */
   flex: 0 1 auto;
   min-width: 0;
   display: flex;
@@ -581,12 +543,6 @@ body.light .thumb-media {
 }
 
 /* --- RESPONSIVE BREAKPOINTS --- */
-/* Tablet / phone: one column. This section is pinned to a single 100vh
-   slot (the app hijacks scroll for section navigation, so anything that
-   overflows is unreachable), which means the layout has to be a column of
-   fixed regions — header, media, thumbnails — with the info panel as the
-   one flexible region that takes whatever height is left and scrolls
-   inside itself if the text is longer. */
 @media (max-width: 968px) {
   .projects-section {
     height: var(--app-h, 100vh);
@@ -594,11 +550,6 @@ body.light .thumb-media {
     align-items: stretch;
   }
 
-  /* Header, media, info and switcher read as one group, centered as a
-     whole in the slot. Nothing stretches to fill the screen — that made
-     the info text float in the middle of a big empty region. If the group
-     is ever taller than the slot, the info box is the only thing that
-     shrinks (and scrolls). */
   .projects-wrapper {
     height: 100%;
     min-height: 0;
@@ -621,8 +572,6 @@ body.light .thumb-media {
     margin-bottom: 8px;
   }
 
-  /* Portrait/tall frames need more height than a landscape screen to be
-     worth looking at. */
   .showcase-stage.is-framed {
     --stage-h: clamp(220px, calc(var(--app-h, 100vh) * 0.4), 440px);
   }
@@ -632,9 +581,6 @@ body.light .thumb-media {
     width: 100%;
   }
 
-  /* Fixed height (rather than whatever the text happens to need) so the
-     switcher below never jumps around when projects change length. Content
-     is top-aligned inside; a longer description scrolls within the box. */
   .stage-info {
     flex: 0 1 auto;
     height: clamp(140px, calc(var(--app-h, 100vh) * 0.32), 300px);
@@ -764,10 +710,6 @@ body.light .thumb-media {
     font-size: 10.5px;
   }
 
-  /* The thumbnail strip takes too much room on a phone (and the last
-     thumbnail ends up under the Resume button), so it's swapped for just
-     the two arrows with a counter between them, centered so the Resume
-     button in the corner never covers either arrow. */
   .thumbnail-rail {
     display: none;
   }
@@ -796,8 +738,7 @@ body.light .thumb-media {
   }
 }
 
-/* Landscape phone / short window: not enough height to stack, so the
-   media and the info sit side by side and everything else shrinks. */
+/* Landscape phone / short window */
 @media (max-height: 520px) and (orientation: landscape) {
   .projects-section {
     height: var(--app-h, 100vh);

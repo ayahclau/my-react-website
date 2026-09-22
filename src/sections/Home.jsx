@@ -2,15 +2,6 @@ import { motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
 import "./Home.css";
 
-// Navigation here goes through the app's own section-slider state (the
-// same event Navbar.jsx dispatches) instead of native scrollIntoView —
-// this app doesn't actually scroll (html/body/app-viewport-wrapper are all
-// overflow:hidden and sections are positioned via a framer-motion
-// translateY driven by React state in App.jsx). Calling scrollIntoView
-// still silently moves that hidden container's native scroll position,
-// which fights with the transform-based slider and leaves the app's
-// `currentSection` state out of sync — that's what broke scrolling back
-// up and made the navbar's Home button stop working afterwards.
 const goToSection = (id) => {
   window.dispatchEvent(new CustomEvent("navbarNavigate", { detail: id }));
 };

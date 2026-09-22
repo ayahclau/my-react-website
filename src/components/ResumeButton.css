@@ -26,7 +26,7 @@ body.light .resume-floating-btn {
 }
 
 .resume-floating-btn:hover {
-  background: rgba(168, 85, 247, 0.15); /* Sleek purple tint */
+  background: rgba(168, 85, 247, 0.15);
   border-color: #a855f7;
   transform: translateY(-4px) scale(1.02);
   box-shadow: 0 15px 35px rgba(168, 85, 247, 0.2);
@@ -53,9 +53,6 @@ body.light .resume-floating-btn {
 
 @media (max-width: 600px) {
   .resume-floating-btn {
-    /* env(safe-area-inset-bottom) keeps this clear of the home-indicator
-       bar on notched phones (resolves to 0 on devices without one, so
-       it's harmless elsewhere). */
     bottom: calc(16px + env(safe-area-inset-bottom, 0px));
     right: 16px;
     padding: 9px 16px;

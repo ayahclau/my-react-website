@@ -81,7 +81,9 @@ body.light .contact-email-card {
 .email-text {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 2px;
+  text-align: left;
 }
 
 .email-label {
@@ -248,8 +250,8 @@ body.light .input-group textarea {
   border-radius: 12px;
   font-size: 15px;
   font-weight: 600;
-  cursor: none !important; /* Forces custom white triangle cursor to handle it */
-  overflow: hidden; /* clips the shimmer sweep to the button */
+  cursor: none !important;
+  overflow: hidden;
   box-shadow: 0 10px 26px rgba(168, 85, 247, 0.3);
   transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
 }
@@ -268,7 +270,6 @@ body.light .input-group textarea {
   transform: translateX(4px);
 }
 
-/* Same hover shimmer as the Resume and login buttons */
 .shimmer-sweep {
   position: absolute;
   top: 0;
@@ -290,7 +291,6 @@ body.light .input-group textarea {
   transform: none;
 }
 
-/* Honeypot field for bots — kept out of view and out of the tab order */
 .form-honeypot {
   display: none;
 }
@@ -340,13 +340,8 @@ body.light .input-group textarea {
   }
 }
 
-/* Phone. This section sits in a single 100vh slot and the app hijacks
-   scroll for section navigation, so anything taller than the screen is
-   unreachable — everything below is budgeted to fit ~640px of height
-   (title + blurb + email + socials + the whole form). */
 @media (max-width: 640px) {
   .contact-section {
-    /* clears the hamburger / theme-toggle buttons at top:20px */
     padding: 62px 0 12px;
   }
 
@@ -446,10 +441,6 @@ body.light .input-group textarea {
   }
 }
 
-/* iOS Safari zooms the whole page in when a text field under 16px gets
-   focus, which would knock this fixed-layout slider off-screen — so on
-   real touch devices the typed text stays at 16px even though the rest
-   of the page is compacted. */
 @media (max-width: 640px) and (hover: none) and (pointer: coarse) {
   .input-group input,
   .input-group textarea {
@@ -457,9 +448,7 @@ body.light .input-group textarea {
   }
 }
 
-/* Landscape phone / small landscape tablet: stacking would be far too
-   tall, so it goes back to two columns (left-aligned again, undoing the
-   centered stack above). */
+/* Landscape phone / small landscape tablet */
 @media (max-width: 900px) and (orientation: landscape) {
   .contact-section {
     padding: 56px 0 8px;

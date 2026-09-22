@@ -2,25 +2,21 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaChevronLeft, FaChevronRight, FaTimes, FaPalette, FaImage } from "react-icons/fa";
-import art1 from "../assets/art1.png";
-import art2 from "../assets/art2.png";
-import art3 from "../assets/art3.png";
-import art4 from "../assets/art4.png";
-import art5 from "../assets/art5.png";
-import nasa1 from "../assets/nasa1.png";
-import nasa2 from "../assets/nasa2.png";
-import nasa3 from "../assets/nasa3.png";
-import menu1 from "../assets/menu1.png";
-import menu2 from "../assets/menu2.png";
-import menu3 from "../assets/menu3.png";
-import dressed1 from "../assets/dressed1.png";
-import dressed2 from "../assets/dressed2.png";
+import art1 from "../assets/art1.webp";
+import art2 from "../assets/art2.webp";
+import art3 from "../assets/art3.webp";
+import art4 from "../assets/art4.webp";
+import art5 from "../assets/art5.webp";
+import nasa1 from "../assets/nasa1.webp";
+import nasa2 from "../assets/nasa2.webp";
+import nasa3 from "../assets/nasa3.webp";
+import menu1 from "../assets/menu1.webp";
+import menu2 from "../assets/menu2.webp";
+import menu3 from "../assets/menu3.webp";
+import dressed1 from "../assets/dressed1.webp";
+import dressed2 from "../assets/dressed2.webp";
 import "./SideProjects.css";
 
-// 🌟 Creative/graphic-design work, shown as a gallery wall rather than the
-// dev Projects page's laptop mockup — real posters deserve to just be seen.
-// `images[0]` doubles as the tile's own cover photo; a project with no
-// images yet (digital-art) gets an icon placeholder instead.
 const sideProjects = [
   {
     id: "digital-art",
@@ -33,7 +29,6 @@ const sideProjects = [
     colorA: "#a855f7",
     colorB: "#7c3aed",
     icon: FaPalette,
-    // art1 is the redraw, art2–art5 are original concepts.
     images: [art1, art2, art3, art4, art5],
   },
   {
@@ -112,6 +107,14 @@ export default function SideProjects() {
     return () => window.removeEventListener("keydown", handleKey);
   }, [active]);
 
+  useEffect(() => {
+    if (!active) return;
+    active.images.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, [active]);
+
   const openProject = (id) => {
     setOpenId(id);
     setShotIndex(0);
@@ -127,8 +130,6 @@ export default function SideProjects() {
 
   return (
     <section className="side-section" id="side-work">
-      {/* No page-local glow blobs here on purpose — AmbientBackground is
-          the site's one shared background now. */}
       <div className="side-wrapper">
         <div className="side-header">
           <h2 className="side-title">
@@ -180,13 +181,6 @@ export default function SideProjects() {
         </motion.div>
       </div>
 
-      {/* 🌟 Portalled to <body> on purpose. The section slider in App.jsx
-          animates `y` on its wrapper, and a transformed ancestor becomes the
-          containing block for `position: fixed` children — so an overlay
-          rendered inside this section anchors to that 6-screen-tall slider
-          instead of the viewport, and gets clipped by the `overflow: hidden`
-          on .app-viewport-wrapper and .side-section. Portalling out is what
-          makes `position: fixed` actually mean the viewport here. */}
       {createPortal(
         <AnimatePresence>
           {active && (
@@ -219,8 +213,6 @@ export default function SideProjects() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1, duration: 0.35, ease: "easeOut" }}
                   >
-                    {/* Left: the poster. Arrows sit beside the frame, not on
-                        top of it, so they never cover the artwork. */}
                     <div className="side-modal-media-col">
                       <div className="side-modal-frame-row">
                         {active.images.length > 1 && (
@@ -280,7 +272,6 @@ export default function SideProjects() {
                       )}
                     </div>
 
-                    {/* Right: everything about the piece. */}
                     <div className="side-modal-info-col">
                       <h3 className="side-modal-title">{active.title}</h3>
                       <p className="side-modal-role">{active.role}</p>

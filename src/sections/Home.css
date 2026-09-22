@@ -109,7 +109,6 @@
   transform: translateX(5px);
 }
 
-/* Same hover shimmer as the Resume and login buttons */
 .shimmer-sweep {
   position: absolute;
   top: 0;
@@ -367,20 +366,6 @@ body.light .floating-tag-box {
   100% { transform: scale(2); opacity: 0; }
 }
 
-/* Responsive Layout */
-/* Tablet / phone. The Home slot is one 100vh screen and the app hijacks
-   scroll for section navigation, so the layout has to fit rather than
-   flow past the bottom. Content is centered with auto margins on the
-   container (not align-items:center on the section) so if it is ever
-   taller than the screen it top-aligns and scrolls by touch instead of
-   getting cut off equally at both ends.
-
-   The 3D deck is designed at a fixed 440x460 with px offsets for every
-   floating layer, so it is scaled as ONE unit with transform (and its
-   layout box shrunk to match) instead of being resized — squeezing the
-   box left the layers at their original pixel sizes, which is what made
-   it look broken on a phone (code lines wider than the card, chips and
-   badge colliding). */
 @media (max-width: 968px) {
   .home-section {
     height: var(--app-h, 100vh);
@@ -439,15 +424,10 @@ body.light .floating-tag-box {
     padding: 62px 6% 12px;
   }
 
-  /* The gap between the buttons and the deck; enough that the deck reads
-     as its own block without pushing the group past the screen */
   .home-container {
     gap: 26px;
   }
 
-  /* Hero title stays clearly the largest text on the page — it's still
-     smaller than desktop, but the buttons and blurb are sized well under
-     it so the hierarchy reads at a glance */
   .hero-main-title {
     font-size: 28px;
     line-height: 1.15;
@@ -462,8 +442,6 @@ body.light .floating-tag-box {
     margin-bottom: 16px;
   }
 
-  /* Side by side again — they only stacked before because the padding was
-     sized for desktop; at this size both fit on one row. */
   .hero-cta-group {
     flex-direction: row;
     width: 100%;
@@ -489,9 +467,6 @@ body.light .floating-tag-box {
     font-size: 10px;
   }
 
-  /* Deck scale = min(width-based, height-based): width keeps the scene
-     (~485px wide with its overhanging layers) inside the screen, height
-     keeps title + blurb + buttons + deck inside one slot. */
   .hero-visual-block {
     --s-w: 0.74;
     --s-h: 0.74;
