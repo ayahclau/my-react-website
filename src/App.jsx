@@ -12,6 +12,7 @@ import Home from "./sections/Home";
 import About from "./sections/About";
 import TechStack from "./sections/TechStack";
 import Projects from './sections/Projects';
+import SideProjects from './sections/SideProjects';
 import Contact from "./sections/Contact";
 import './styles/global.css'; 
 import LoginScreen from "./components/LoginScreen";
@@ -23,7 +24,7 @@ function App() {
   const isScrollingRef = useRef(false);
 
   // 🌟 Your active sections array mapped exactly to index positions
-  const sections = ["home", "about", "tech", "projects", "contact"]; //include "projects" if you want to add it to the scrollable sections
+  const sections = ["home", "about", "tech", "projects", "side-work", "contact"]; //include "projects" if you want to add it to the scrollable sections
 
   useEffect(() => {
     if (!document.body.className) {
@@ -55,7 +56,36 @@ function App() {
   useEffect(() => {
     if (!hasEntered) return;
 
+    // 🌟 Shared by wheel and touch: walks up from the event target to find
+    // an ancestor that actually scrolls on its own (e.g. the side-work
+    // project modal, once its content overflows). Used so section-hijacking
+    // yields to that element's own scrolling instead of trapping it.
+    const scrollableAncestor = (el) => {
+      while (el && el !== document.body && el !== document.documentElement) {
+        if (el.scrollHeight > el.clientHeight + 1) {
+          const overflowY = getComputedStyle(el).overflowY;
+          if (overflowY === "auto" || overflowY === "scroll") return el;
+        }
+        el = el.parentElement;
+      }
+      return null;
+    };
+
     const handleWheel = (e) => {
+      // 🌟 If the wheel is over something that scrolls on its own (like an
+      // open project modal) and it hasn't hit its edge yet in that
+      // direction, let it scroll natively instead of hijacking for the
+      // section slider — otherwise content below the fold (description,
+      // tags) was completely unreachable.
+      const scroller = scrollableAncestor(e.target);
+      if (scroller) {
+        const atBottom = scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 1;
+        const atTop = scroller.scrollTop <= 0;
+        if ((e.deltaY > 0 && !atBottom) || (e.deltaY < 0 && !atTop)) {
+          return; // don't preventDefault — let the modal scroll itself
+        }
+      }
+
       e.preventDefault(); // Stop native jumpy browsing shifts
       if (isScrollingRef.current) return;
 
@@ -90,17 +120,6 @@ function App() {
     // own (a long description, say) scrolls that instead, and only moves
     // to the next section once that content is at its end.
     let touch = null;
-
-    const scrollableAncestor = (el) => {
-      while (el && el !== document.body && el !== document.documentElement) {
-        if (el.scrollHeight > el.clientHeight + 1) {
-          const overflowY = getComputedStyle(el).overflowY;
-          if (overflowY === "auto" || overflowY === "scroll") return el;
-        }
-        el = el.parentElement;
-      }
-      return null;
-    };
 
     const handleTouchStart = (e) => {
       if (e.touches.length !== 1) {
@@ -182,6 +201,7 @@ function App() {
               <div className="snap-section-view" id="about"><About /></div>   
               <div className="snap-section-view" id="tech"><TechStack /></div>
               <div className="snap-section-view" id="projects"><Projects /></div>
+              <div className="snap-section-view" id="side-work"><SideProjects /></div>
               <div className="snap-section-view" id="contact"><Contact /></div>
             </motion.div>
           </div>

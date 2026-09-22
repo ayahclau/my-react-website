@@ -64,8 +64,8 @@ export default function About() {
 
           <div className="id-card-caption">
             <div className="id-profile-info">
-              <h3>Aiah Clare</h3>
-              <p>Front-End Engineer & Digital Artist</p>
+              <h3>Aiah Clare Filipinas</h3>
+              <p>Full-Stack Developer & Web Designer</p>
             </div>
             <div className="verified-badge" title="Verified Creative">
               <FaCheckCircle />
@@ -78,13 +78,12 @@ export default function About() {
           <span className="bio-quote-mark">&ldquo;</span>
 
           <h2 className="bio-heading">
-            Driven by curiosity, <br />
-            engineered for <span className="text-gradient">perfection.</span>
+            Do it sad. Do it tired. <br />
+            <span className="text-gradient">Do it anyway.</span>
           </h2>
 
           <p className="bio-text">
-            I'm a Computer Science graduate who views code as a creative canvas. I specialize in turning complex logic into seamless, fluid user interfaces that feel clean, modern, and effortless to navigate.
-          </p>
+            This motto defines both my craft and who I am as a person. As a Computer Science graduate and self-taught artist, I view code as my creative canvas. I bridge logic and design to create seamless, fluid user interfaces that feel clean, modern, and effortless to navigate.          </p>
         </motion.div>
 
         {/* CARD 3: Beyond The Code */}
@@ -135,7 +134,7 @@ export default function About() {
             </div>
             <div>
               <span className="fuel-label">Current Vibe</span>
-              <p className="fuel-text">Building interactive web apps & brewing dark roast ☕</p>
+              <p className="fuel-text">Building interactive art with code</p>
             </div>
           </div>
         </motion.div>

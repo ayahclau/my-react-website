@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { FaArrowRight, FaFingerprint } from "react-icons/fa";
+import profilePhoto from "../assets/login_photo.jpg";
 import "./LoginScreen.css";
 
 export default function LoginScreen({ onLogin }) {
@@ -63,21 +64,26 @@ export default function LoginScreen({ onLogin }) {
             <span className="avatar-sparkle avatar-sparkle-1"></span>
             <span className="avatar-sparkle avatar-sparkle-2"></span>
             <span className="avatar-sparkle avatar-sparkle-3"></span>
-            <img
-              src="./src/assets/pink_photo.png"
-              alt="Aiah Clare Filipinas"
-              className="portal-avatar"
-              onError={(e) => {
-                e.target.src =
-                  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80";
-              }}
-            />
+            {/* The photo is a tall portrait with the face off to one side of a
+                busy background, so it's cropped/zoomed inside a circular
+                wrapper (see .portal-avatar-img) rather than shown whole. */}
+            <div className="portal-avatar">
+              <img
+                src={profilePhoto}
+                alt="Aiah Clare Filipinas"
+                className="portal-avatar-img"
+                onError={(e) => {
+                  e.target.src =
+                    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80";
+                }}
+              />
+            </div>
           </div>
 
           {/* Header Titles */}
           <div className="portal-meta">
             <h1 className="portal-name">Aiah Clare Filipinas</h1>
-            <p className="portal-role">Full-Stack Developer & Designer</p>
+            <p className="portal-role">Full-Stack Developer & Web Designer</p>
           </div>
 
           {/* Unlock Button */}

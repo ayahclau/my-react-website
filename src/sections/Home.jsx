@@ -91,9 +91,9 @@ export default function Home() {
                 <pre className="code-body">
                   <code>
                     <span className="code-keyword">const</span> <span className="code-var">aiah</span> = &#123;<br />
-                    &nbsp;&nbsp;<span className="code-key">role</span>: <span className="code-string">"Engineer & Artist"</span>,<br />
-                    &nbsp;&nbsp;<span className="code-key">stack</span>: [<span className="code-string">"React"</span>, <span className="code-string">"UI/UX"</span>, <span className="code-string">"Framer"</span>],<br />
-                    &nbsp;&nbsp;<span className="code-key">status</span>: <span className="code-string">"Ready to create ✨"</span><br />
+                    &nbsp;&nbsp;<span className="code-key">role</span>: <span className="code-string">"Full-Stack Developer & Artist"</span>,<br />
+                    &nbsp;&nbsp;<span className="code-key">degree</span>: <span className="code-string">"BS Computer Science"</span>,<br />
+                    &nbsp;&nbsp;<span className="code-key">status</span>: <span className="code-string">"Open to work"</span><br />
                     &#125;;
                   </code>
                 </pre>
@@ -111,8 +111,8 @@ export default function Home() {
               {/* Layer 4: Floating Tech Stack Chips */}
               <div className="card-layer floating-chips-box">
                 <span className="chip">React</span>
-                <span className="chip accent">CSS3 / Motion</span>
-                <span className="chip">UI/UX</span>
+                <span className="chip accent">Node.js</span>
+                <span className="chip">Flutter</span>
               </div>
 
               {/* Decorative Glass Glow Rings */}

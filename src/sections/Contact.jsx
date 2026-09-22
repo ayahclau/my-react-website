@@ -29,7 +29,7 @@ export default function Contact() {
             </div>
             <div className="email-text">
               <span className="email-label">Email me directly</span>
-              <span className="email-value">aiahclare@example.com</span>
+              <span className="email-value">aclfilipinas.work@gmail.com</span>
             </div>
             <FaArrowRight className="email-arrow" />
           </a>

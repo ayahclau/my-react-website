@@ -1,0 +1,543 @@
+/* SideProjects.css */
+.side-section {
+  position: relative;
+  width: 100%;
+  height: var(--app-h, 100vh);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.side-wrapper {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1080px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* --- HEADER --- */
+.side-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.side-title {
+  font-size: clamp(26px, 3vw, 40px);
+  font-weight: 800;
+  letter-spacing: -1.1px;
+  line-height: 1.2;
+  color: var(--text);
+  margin: 0 0 8px 0;
+}
+
+.side-subtitle {
+  font-size: 14.5px;
+  color: var(--text);
+  opacity: 0.65;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* --- MOSAIC GRID --- */
+/* Two tall portrait posters (menu, dressed) flank a stacked pair (the
+   square NASA pubmat over the digital-art placeholder) — an asymmetric
+   bento layout like About's, sized to the same viewport-based budget the
+   rest of the site uses so it fits one screen without scrolling. */
+.side-mosaic {
+  width: 100%;
+  height: clamp(340px, calc(var(--app-h, 100vh) * 0.56), 540px);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+    "menu dressed nasa"
+    "menu dressed art";
+  gap: 16px;
+}
+
+.side-tile--menu { grid-area: menu; }
+.side-tile--dressed { grid-area: dressed; }
+.side-tile--nasa { grid-area: nasa; }
+.side-tile--art { grid-area: art; }
+
+.side-tile {
+  position: relative;
+}
+
+.side-tile-shell {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  cursor: pointer;
+  overflow: hidden;
+  background: linear-gradient(160deg, var(--card-a) 0%, var(--card-b) 100%);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.28);
+  transition: box-shadow 0.35s ease, border-color 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.side-tile-shell:hover,
+.side-tile-shell:focus-visible {
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 26px 46px rgba(0, 0, 0, 0.35), 0 0 30px 2px var(--card-a);
+  transform: translateY(-8px);
+}
+
+.side-tile-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.side-tile-shell:hover .side-tile-img {
+  transform: scale(1.06);
+}
+
+.side-tile-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.side-tile-placeholder-icon {
+  font-size: 15vh;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* Bottom scrim guarantees the caption reads regardless of how bright the
+   poster underneath is (the NASA navy vs. the cream menu vs. pink denim) */
+.side-tile-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 42%, rgba(0, 0, 0, 0.78) 100%);
+  pointer-events: none;
+}
+
+.side-tile-shine {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 22% 18%, rgba(255, 255, 255, 0.35) 0%, transparent 55%);
+  opacity: 0.5;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.side-tile-shell:hover .side-tile-shine {
+  opacity: 0.9;
+}
+
+.side-tile-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+}
+
+.side-tile-role {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.side-tile-title {
+  font-size: 15.5px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+/* --- MODAL --- */
+.side-modal-root {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+}
+
+.side-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 6, 12, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.side-modal-center {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  pointer-events: none;
+}
+
+.side-modal {
+  position: relative;
+  pointer-events: auto;
+  width: 100%;
+  max-width: 1040px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 26px;
+  padding: 36px;
+  box-sizing: border-box;
+
+  /* Glassmorphism that keeps a hint of the project's own color instead of
+     going fully clear: a light tint of --card-a/--card-b (not the opaque
+     gradient the tiles use) sitting over a heavy frosted blur — more blur,
+     less color, than a plain tinted panel. Plain fallback first for
+     browsers without color-mix() support — the second declaration
+     silently wins wherever it's understood. */
+  background: rgba(20, 16, 30, 0.5);
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--card-a) 42%, transparent) 0%,
+    color-mix(in srgb, var(--card-b) 42%, transparent) 130%
+  );
+  backdrop-filter: blur(42px) saturate(200%);
+  -webkit-backdrop-filter: blur(42px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+.side-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.side-modal-close:hover {
+  background: rgba(0, 0, 0, 0.4);
+  transform: scale(1.08);
+}
+
+/* --- LANDSCAPE LAYOUT: poster left, everything about it on the right --- */
+.side-modal-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 30px;
+}
+
+.side-modal-media-col {
+  flex: 0 0 48%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.side-modal-info-col {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Arrow + screenshot + arrow, as plain flex siblings — the arrows live
+   outside the poster's own edges instead of floating on top of it. */
+.side-modal-frame-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.side-modal-screen {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  max-width: 400px;
+  aspect-ratio: 3 / 4; /* default — overridden per category below to match
+                           each screenshot's own proportions, so object-fit:
+                           cover crops as little as possible */
+  max-height: 68vh;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+/* NASA pubmats are square (1080x1080) — the shared 3:4 frame was cropping
+   a quarter of their width off. Menu/Dressed posters are true ~0.71
+   portraits (1414x2000 / 1587x2245), close enough to 3:4 to keep as-is. */
+.side-modal--nasa .side-modal-screen {
+  aspect-ratio: 1 / 1;
+}
+
+/* The art pieces don't share one ratio the way the posters do (0.67–0.96
+   across art1–art5) — cover would crop unpredictably, risky on character
+   art. contain instead, with a squarer frame that splits the difference. */
+.side-modal--art .side-modal-screen {
+  aspect-ratio: 4 / 5;
+}
+
+.side-modal--art .side-modal-img {
+  object-fit: contain;
+}
+
+.side-modal-media {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.side-modal-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.side-modal-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.55);
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.04) 0px,
+    rgba(255, 255, 255, 0.04) 10px,
+    transparent 10px,
+    transparent 20px
+  );
+}
+
+.side-modal-placeholder-icon {
+  font-size: 40px;
+  opacity: 0.7;
+}
+
+.side-modal-placeholder span {
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+/* Plain flex siblings of .side-modal-screen now (see .side-modal-frame-row)
+   instead of absolutely positioned over the artwork, per design request —
+   they sit just outside the poster's edges. */
+.side-modal-nav {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.2);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.side-modal-nav:hover {
+  background: rgba(0, 0, 0, 0.4);
+  transform: scale(1.08);
+}
+
+.side-modal-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.side-modal-dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.side-modal-dot:hover {
+  transform: scale(1.2);
+}
+
+.side-modal-dot.active {
+  background: #ffffff;
+  transform: scale(1.15);
+}
+
+.side-modal-title {
+  font-size: clamp(18px, 2.1vw, 23px);
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  color: #ffffff;
+  margin: 0 0 4px 0;
+  line-height: 1.3;
+}
+
+.side-modal-role {
+  font-size: 12.5px;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 0 12px 0;
+}
+
+.side-modal-description {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 16px 0;
+}
+
+.side-modal-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.side-modal-tag {
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 900px) {
+  /* The 3-column asymmetric layout gets cramped before the fonts do —
+     simplify to an even 2x2 so nothing gets crushed. */
+  .side-mosaic {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+      "menu dressed"
+      "nasa art";
+  }
+}
+
+/* The side-by-side landscape layout needs real width to breathe — below
+   that it collapses back to poster-on-top, info-below. */
+@media (max-width: 720px) {
+  .side-modal {
+    max-width: 480px;
+  }
+
+  .side-modal-content {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+  }
+
+  .side-modal-media-col {
+    flex: none;
+  }
+
+  .side-modal-screen {
+    max-width: 320px;
+    max-height: 42vh;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .side-section {
+    padding: 16px 6%;
+    align-items: center;
+  }
+
+  .side-header {
+    margin-bottom: 16px;
+  }
+
+  .side-title {
+    font-size: 22px;
+  }
+
+  .side-subtitle {
+    font-size: 12px;
+  }
+
+  .side-mosaic {
+    height: clamp(300px, calc(var(--app-h, 100vh) * 0.62), 460px);
+    gap: 10px;
+  }
+
+  .side-tile-shell {
+    border-radius: 14px;
+  }
+
+  .side-tile-caption {
+    padding: 10px 12px;
+  }
+
+  .side-tile-role {
+    font-size: 9px;
+  }
+
+  .side-tile-title {
+    font-size: 12.5px;
+  }
+
+  .side-tile-placeholder-icon {
+    font-size: 11vh;
+  }
+
+  .side-modal {
+    padding: 20px;
+    max-height: 90vh;
+  }
+
+  .side-modal-screen {
+    max-height: 34vh;
+  }
+
+  .side-modal-title {
+    font-size: 16px;
+  }
+
+  .side-modal-description {
+    font-size: 12px;
+  }
+}

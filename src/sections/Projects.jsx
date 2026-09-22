@@ -8,6 +8,21 @@ import dost1 from "../assets/dost1.png";
 import dost2 from "../assets/dost2.png";
 import dost3 from "../assets/dost3.png";
 import dost4 from "../assets/dost4.png";
+import dost5 from "../assets/dost5.png";
+import dost6 from "../assets/dost6.png";
+import bean1 from "../assets/bean1.png";
+import bean2 from "../assets/bean2.png";
+import bean3 from "../assets/bean3.png";
+import bean4 from "../assets/bean4.png";
+import bean5 from "../assets/bean5.png";
+import agreville1 from "../assets/agreville1.png";
+import agreville2 from "../assets/agreville2.png";
+import agreville3 from "../assets/agreville3.png";
+import agreville4 from "../assets/agreville4.png";
+import avw1 from "../assets/avw1.png";
+import avw2 from "../assets/avw2.png";
+import avw3 from "../assets/avw3.png";
+import avw4 from "../assets/avw4.png";
 import "./Projects.css";
 
 // 🌟 Project data, pulled from the Experience section of the resume.
@@ -43,9 +58,7 @@ const projects = [
     description:
       "Redesigned the Bean Xpress web interface using Figma as part of a UX/HCI project. The redesign focused on improving usability and visual consistency across key pages, including the homepage, cart, products, inventory, and sales report.",
     tags: ["Figma", "UX Research", "UI Redesign"],
-    images: [null, null, null], // 👈 Replace with redesign screenshots/mockups
-    link: "#", // 👈 Replace with the real Figma prototype link
-    linkLabel: "View Prototype",
+    images: [bean1, bean2, bean3, bean4, bean5],
   },
   {
     id: "dimt",
@@ -53,9 +66,9 @@ const projects = [
     role: "Lead Designer & Frontend Developer",
     fileLabel: "dimt_platform.jsx",
     description:
-      "Executed a complete top-to-bottom redesign of the entire web platform, modernizing the user interface and experience while strictly preserving all existing elements, workflows, and core functionalities. Co-developed the frontend architecture that is now currently deployed and used by DOST.",
+      "Executed a complete top-to-bottom redesign of the entire web platform, modernizing the user interface and experience while strictly preserving all existing elements, workflows, and core functionalities. Co-developed the frontend architecture that is now currently deployed and used by the Department of Science and Technology (DOST).",
     tags: ["Frontend Development", "UI/UX Redesign", "Web Platform"],
-    images: [dost1, dost2, dost3, dost4],
+    images: [dost1, dost2, dost3, dost4, dost5, dost6],
   },
   {
     id: "agreville-billing",
@@ -63,9 +76,21 @@ const projects = [
     role: "Lead Developer",
     fileLabel: "agreville_billing.js",
     description:
-      "A web application developed with the MERN stack that streamlines contract management, billing, payment tracking, tenancy oversight, and maintenance tracking through automation and a centralized database.",
+      "A web application developed for CSA Residences, Koronadal City using MERN stack that streamlines contract management, billing, payment tracking, tenancy oversight, and maintenance tracking through automation and a centralized database.",
     tags: ["React", "Node.js", "Express", "MongoDB"],
-    images: [null, null], // 👈 Replace with dashboard/system screenshots
+    images: [agreville1, agreville2, agreville3, agreville4],
+  },
+  {
+    // Listed under "Publication" on the resume rather than "Experience", so
+    // there's no job role to show — the role line says what it is instead.
+    id: "avw-space",
+    title: "AVW-Space: Comparative Evaluation of Large Language Models for Active Video Learning",
+    role: "Research Publication",
+    fileLabel: "avw_space_research.pdf",
+    description:
+      "This research evaluates the application of Large Language Models (LLMs) within the Active Video Watching (AVW-Space) platform at the University of Canterbury to deliver automated, context-aware feedback for Video-Based Learning (VBL). The framework leverages a multi-model approach: a fine-tuned DeBERTa-v3-base model is deployed to analyze comment quality, while engineered prompts guide Qwen2.5-7B-Instruct and Llama-3.1-8B-Instruct to generate a formative feedback.",
+    tags: ["Large Language Models", "DeBERTa-v3", "Qwen2.5", "Llama-3.1", "Video-Based Learning"],
+    images: [avw1, avw2, avw3, avw4],
   },
 ];
 
@@ -260,7 +285,7 @@ export default function Projects() {
             A closer look at what I've <span className="text-gradient">built.</span>
           </h2>
           <p className="projects-subtitle">
-            Real projects built for real organizations — spanning full-stack development, UX research, and platform redesign.
+            Real projects built for real organizations — spanning full-stack development, UX research, platform redesign, and LLM research.
           </p>
         </motion.div>
 

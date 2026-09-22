@@ -126,12 +126,30 @@ body.light .portal-card {
 }
 
 .portal-avatar {
+  position: relative;
   width: 90px;
   height: 90px;
   border-radius: 50%;
-  object-fit: cover;
+  overflow: hidden;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
   z-index: 2;
+}
+
+/* The source photo is a 3:4 portrait with the face in the upper-middle,
+   slightly right of center. object-fit:cover on a square shows the whole
+   width, so the face came out small. Three pieces put it back in frame:
+   - object-position picks the vertical window around the face (16% down),
+   - scale(2.5) about the box center (which is that window's center) zooms
+     in until the face + hair fill the circle,
+   - translateX(-14%) then slides the picture left, moving the crop right
+     onto the face, which sits right of the photo's middle. */
+.portal-avatar-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 22%;
+  transform: translateX(-14%) scale(2.5);
 }
 
 .avatar-art-ring {
