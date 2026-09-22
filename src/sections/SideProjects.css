@@ -181,7 +181,6 @@
   inset: 0;
   background: rgba(8, 6, 12, 0.65);
   backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
 }
 
 .side-modal-center {
@@ -218,7 +217,6 @@
     color-mix(in srgb, var(--card-b) 42%, transparent) 130%
   );
   backdrop-filter: blur(42px) saturate(200%);
-  -webkit-backdrop-filter: blur(42px) saturate(200%);
   border: 1px solid rgba(255, 255, 255, 0.22);
   box-shadow: 0 40px 80px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.16);
 }
@@ -483,8 +481,8 @@
 
 @media (max-width: 640px) {
   .side-section {
-    padding: 16px 6%;
-    align-items: center;
+    padding: 62px 6% 16px;
+    align-items: flex-start;
   }
 
   .side-header {

@@ -57,6 +57,7 @@ export default function Home() {
               className="cta-primary"
               onClick={() => goToSection("projects")}
             >
+              <div className="shimmer-sweep"></div>
               <span>Explore My Work</span>
               <FaArrowRight className="cta-icon" />
             </button>

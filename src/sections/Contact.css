@@ -55,10 +55,7 @@
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--border);
   border-radius: 16px;
-  text-decoration: none;
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
   width: fit-content;
   max-width: 100%;
   box-sizing: border-box;
@@ -66,12 +63,6 @@
 
 body.light .contact-email-card {
   background: rgba(0, 0, 0, 0.02);
-}
-
-.contact-email-card:hover {
-  border-color: rgba(168, 85, 247, 0.5);
-  transform: translateY(-2px);
-  box-shadow: 0 14px 28px rgba(168, 85, 247, 0.18);
 }
 
 .contact-icon-wrapper {
@@ -106,18 +97,6 @@ body.light .contact-email-card {
   font-size: 15px;
   font-weight: 600;
   color: var(--text);
-}
-
-.email-arrow {
-  margin-left: 20px;
-  color: var(--text);
-  opacity: 0.4;
-  transition: transform 0.25s ease, opacity 0.25s ease;
-}
-
-.contact-email-card:hover .email-arrow {
-  transform: translateX(4px);
-  opacity: 1;
 }
 
 .contact-socials-row {
@@ -160,7 +139,6 @@ body.light .social-pill {
   border-radius: 24px;
   padding: 40px 45px;
   backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   overflow: hidden;
 }
@@ -271,6 +249,7 @@ body.light .input-group textarea {
   font-size: 15px;
   font-weight: 600;
   cursor: none !important; /* Forces custom white triangle cursor to handle it */
+  overflow: hidden; /* clips the shimmer sweep to the button */
   box-shadow: 0 10px 26px rgba(168, 85, 247, 0.3);
   transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
 }
@@ -288,6 +267,53 @@ body.light .input-group textarea {
 .contact-submit-btn:hover .arrow-icon {
   transform: translateX(4px);
 }
+
+/* Same hover shimmer as the Resume and login buttons */
+.shimmer-sweep {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.75s ease;
+  pointer-events: none;
+}
+
+.contact-submit-btn:hover .shimmer-sweep {
+  left: 150%;
+}
+
+.contact-submit-btn:disabled {
+  opacity: 0.6;
+  transform: none;
+}
+
+/* Honeypot field for bots — kept out of view and out of the tab order */
+.form-honeypot {
+  display: none;
+}
+
+.form-status-note {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--text);
+  opacity: 0.65;
+}
+
+.form-status-note.is-error {
+  color: #f87171;
+  opacity: 0.9;
+}
+
+.form-status-note strong {
+  color: #a855f7;
+  font-weight: 600;
+}
+
 
 /* Responsive Scaling */
 @media (max-width: 900px) {
@@ -360,11 +386,6 @@ body.light .input-group textarea {
 
   .email-value {
     font-size: 13px;
-  }
-
-  .email-arrow {
-    margin-left: 8px;
-    font-size: 11px;
   }
 
   .contact-socials-row {

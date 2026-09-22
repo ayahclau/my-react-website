@@ -89,7 +89,6 @@ body.light .portal-bg-text {
   border: 1px solid rgba(168, 85, 247, 0.22);
   border-radius: 34px;
   backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3), 0 0 70px rgba(168, 85, 247, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: column;
