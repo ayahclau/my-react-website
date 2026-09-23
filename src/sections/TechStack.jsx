@@ -21,16 +21,18 @@ const techItems = [
   { name: "GitHub", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
   { name: "VS Code", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" },
   { name: "NetBeans", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/netbeans/netbeans-original.svg" },
+  { name: "WordPress", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-original.svg" },
+  { name: "Elementor", icon: "https://cdn.simpleicons.org/elementor/ec4899" },
 ];
 
 const innerRing = techItems.slice(0, 5);
-const middleRing = techItems.slice(5, 11);
-const outerRing = techItems.slice(11, 18);
+const middleRing = techItems.slice(5, 12);
+const outerRing = techItems.slice(12, 20);
 
 const categories = [
-  { label: "Frontend & Mobile", icon: FaCode, count: 6 },
+  { label: "Frontend & Mobile", icon: FaCode, count: 7 },
   { label: "Backend", icon: FaServer, count: 5 },
-  { label: "Design", icon: FaPaintBrush, count: 3 },
+  { label: "Design", icon: FaPaintBrush, count: 4 },
   { label: "Dev Tools", icon: FaTerminal, count: 4 },
 ];
 
@@ -77,7 +79,7 @@ export default function TechStack() {
           </h2>
 
           <p className="tech-subtitle">
-            Eighteen languages, frameworks, and design tools I reach for to take an idea from sketch to shipped product.
+            Twenty languages, frameworks, and design tools I reach for to take an idea from sketch to shipped product.
           </p>
 
           <div className="tech-categories">
