@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { FaEnvelope, FaGithub, FaLinkedin, FaArrowRight, FaUser, FaCommentDots } from "react-icons/fa";
+import { FaEnvelope, FaArrowRight, FaUser, FaCommentDots } from "react-icons/fa";
 import "./Contact.css";
 
 const CONTACT_EMAIL = "aclfilipinas.work@gmail.com";
@@ -72,15 +72,6 @@ export default function Contact() {
               <span className="email-label">My email</span>
               <span className="email-value">{CONTACT_EMAIL}</span>
             </div>
-          </div>
-
-          <div className="contact-socials-row">
-            <a href="https://github.com" target="_blank" rel="noreferrer" className="social-pill">
-              <FaGithub /> <span>GitHub</span>
-            </a>
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="social-pill">
-              <FaLinkedin /> <span>LinkedIn</span>
-            </a>
           </div>
         </motion.div>
 
