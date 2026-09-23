@@ -15,6 +15,7 @@ import menu2 from "../assets/menu2.webp";
 import menu3 from "../assets/menu3.webp";
 import dressed1 from "../assets/dressed1.webp";
 import dressed2 from "../assets/dressed2.webp";
+import dressed3 from "../assets/dressed3.webp";
 import "./SideProjects.css";
 
 const sideProjects = [
@@ -53,7 +54,7 @@ const sideProjects = [
     tags: ["Graphic Design", "Event Pubmats", "Y2K / Scrapbook Style"],
     colorA: "#ec4899",
     colorB: "#be185d",
-    images: [dressed1, dressed2],
+    images: [dressed1, dressed2, dressed3],
   },
   {
     id: "mhyz-cafe-menu",

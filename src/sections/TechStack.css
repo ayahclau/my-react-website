@@ -1,4 +1,3 @@
-/* TechStack.css */
 .tech-section {
   position: relative;
   width: 100%;
@@ -22,7 +21,7 @@
   box-sizing: border-box;
 }
 
-/* --- SIDE PANEL: KICKER, TITLE, CATEGORIES --- */
+/* SIDE PANEL */
 .tech-side {
   position: relative;
   flex: 0 0 380px;
@@ -324,7 +323,7 @@ body.light .tech-card {
   opacity: 1;
 }
 
-/* --- KEYFRAME ANIMATIONS --- */
+/* KEYFRAME ANIMATIONS */
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
